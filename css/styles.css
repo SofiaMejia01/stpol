@@ -1,0 +1,129 @@
+
+
+.sidebar {
+    width: 250px; /* Ancho fijo del sidebar */
+    min-height: calc(100vh - 97px); /* Altura completa - Altura de navbar */
+    flex: 0 0 auto; /* evita que flex cambie su ancho */
+    overflow-y: auto; /* Scroll en caso de contenido largo */
+    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out, width 0.3s ease-in-out;
+    background-color: #343a40; /* Fondo oscuro */
+}
+
+.sidebar-collapsed {
+    transform: translateX(-100%); /* Mueve el sidebar fuera de la pantalla */
+    width: 0; /* Ancho del sidebar colapsado */
+    opacity: 0; /* Desvanece el sidebar */
+}
+
+#main-content {
+    flex: 1 1 auto; /* toma el espacio restante */
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+    overflow-x: auto; /* genera scroll horizontal*/
+}
+
+
+td {
+    border-style:none;
+}
+
+.dt-buttons {
+    display: flex;
+
+     float:right; 
+}
+
+.dt-buttons .btn {
+    margin-right: 5px; /* Separación entre botones si es necesario */
+}
+
+.btn-exportar-excel {
+    background-color: rgb(90, 175, 105);
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+    border:none;
+    margin-bottom: 15px;
+}
+.btn-exportar-excel:hover {
+    background-color:rgb(64, 121, 75) ;
+}
+
+
+.btn-exportar-pdf {
+    background-color: rgb(239, 75, 75);
+    border-top-left-radius: 0.375rem !important;
+    border-bottom-left-radius: 0.375rem !important;
+    border:none;
+    margin-bottom: 15px;
+}
+
+.btn-exportar-pdf:hover {
+    background-color: rgb(169, 55, 55);
+}
+
+
+/* mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 56px; /* Debajo del header (altura navbar) */
+        left: 0;
+        width: 100%; /* Ocupa todo el ancho */
+        height: calc(100vh - 97px); /* Ocupa toda la altura menos el header */
+        z-index: 1050; /* Colocar encima del contenido principal */
+        transform: translateX(-100%); /* Ocultar por defecto */
+    }
+
+    .sidebar-collapsed {
+        transform: translateX(0); /* Mostrar sidebar */
+        opacity: 1; /* Hacerlo visible */
+    }
+
+    #main-content {
+        flex-grow: 1; /* En mobile el sidebar es una capa encima y no afecta, entonces en mobile el main-content toma todo el ancho de la pantalla*/
+        position: relative; /* Asegurar que el contenido no se superponga al sidebar */
+        z-index: 1;
+    }
+}
+
+@media (min-width: 768px){
+    .sidebar-main {
+        display: flex;
+    }
+
+   
+}
+
+.arrow {
+    transition: transform 0.3s ease-in-out; /* Animación suave */
+    display: inline-block; /* Asegura que se comporte como un elemento inline-block */
+}
+
+.nav-link[aria-expanded="true"] .arrow {
+    transform: rotate(180deg); /* Gira hacia arriba */
+}
+
+
+
+.bg-marmol {
+    background-color:#b7b7b7 ;
+}
+
+.bg-darkmarmol{
+    background-color: #999999;
+    
+}
+
+.color-footer {
+    color: rgb(179, 175, 175);
+    /*height: 55px;*/
+  }
+
+
+tfoot {
+    display: table-footer-group !important;
+}
+
+/* Librería Select2 */
+.select2-container {
+    min-width: 255px !important;
+}

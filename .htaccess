@@ -1,0 +1,9 @@
+DirectoryIndex login.php
+RewriteEngine On
+
+# Excluir archivos y directorios reales
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir solo si no es un archivo o directorio
+RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
