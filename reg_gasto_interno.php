@@ -6,36 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Gasto Interno</title>
 
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/datatables.min.css" rel="stylesheet"> -->
-
-
-
 </head>
 
 <body>
 
 
     <div class="mt-4">
-    <h1 class="text-center">Registro de Gasto Interno</h1>
+        <h1 class="text-center">Registro de Gasto Interno</h1>
         <div class="row mt-5 mb-5">
-        
+
             <!-- Formulario para agregar una nuevo almacen-->
             <div class="col-12 col-xl-4">
                 <div class="container mt-3">
-                    <h5 id=formAlmacenTitulo>Agregar Nuevo Gasto Interno</h5>
-                    <form id="formAgregarModificarAlmacen" class="p-3 border rounded">
-                        <input type="hidden" id="id_almacen" name="id_almacen">
+                    <h5 id=formGastoTitulo>Agregar Nuevo Gasto Interno</h5>
+                    <form id="formAgregarModificarGasto" class="p-3 border rounded">
+                        <input type="hidden" id="id_gasto" name="id_gasto">
+
                         <div class="form-group mb-3">
-                            <label for="nom_alm">Nombre del Almacen</label>
-                            <input type="text" class="form-control" id="nom_alm" name="nom_alm" required>
+                            <label for="nom_gasto" class="form-label">Nombre del Servicio:</label>
+                            <input type="text" id="nom_gasto" name="nom_gasto" class="form-control" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="descrip_alm">Descripcion del almacen</label>
-                            <textarea class="form-control" id="descrip_alm" name="descrip_alm" required></textarea>
+                            <label for="monto_gasto" class="form-label">Monto:</label>
+                            <input type="number" step="0.01" id="monto_gasto" name="monto_gasto" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="fech_pag_gasto" class="form-label">Fecha de Pago:</label>
+                            <input type="date" name="fech_pag_gasto" id="fech_pag_gasto" class="form-control" required>
                         </div>
 
-                        <button id="btn-almacen" type="submit" class="btn btn-primary">Agregar Almacen</button>
+                        <div class="form-group mb-3">
+                            <label for="archivo" class="form-label ">Adjuntar Comprobante de Pago:</label>
+                            <input type="file" class="form-control" id="archivo" name="archivo" required>
+
+                            <?php if (!empty($row['FOT_EVE_NAME'])): ?>
+                                <small>
+                                    <br>Archivo actual:
+                                    <?php echo htmlspecialchars($row['FOT_EVE_NAME']); ?>
+                                </small>
+                            <?php endif; ?>
+                        </div>
+
+
+                        <button id="btn-gasto" type="submit" class="btn btn-primary">Agregar</button>
                     </form>
                 </div>
             </div>
@@ -46,12 +59,14 @@
                     <h5>Lista de Gastos Internos</h5>
                     <br>
                     <div class="table-responsive">
-                        <table id="almacenTable" class="display table table-striped w-100">
+                        <table id="gastoTable" class="display table table-striped w-100">
                             <thead>
                                 <tr>
-                                    <th>ID Almacen</th>
-                                    <th>Nombre Almacen</th>
-                                    <th>Descripcion Almacen</th>
+                                    <th>ID Servicio</th>
+                                    <th>Nombre Servicio</th>
+                                    <th>Monto</th>
+                                    <th>Fecha de Pago</th>
+                                    <th>Archivo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -76,24 +91,24 @@
             <!-------------------------------------------------------------------------------- TOASTS ---------------------------------------------------------------------------------->
             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
                 <!-- Toast para éxito al modificar un producto -->
-                <div id="toastModificarAlmacen" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div id="toastModificarGasto" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
                             <i class="bi bi-pencil-fill me-2"></i>
-                            Almacen modificado correctamente.
+                            Servicio modificado correctamente.
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
 
                 <!-- Toast para éxito al agregar un producto -->
-                <div id="toastAgregarAlmacen" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div id="toastAgregarGasto" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body  d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
                             <i class="bi bi-check-circle-fill me-2"></i>
-                            Almacen agregado correctamente.
+                            Servicio agregado correctamente.
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
@@ -101,7 +116,7 @@
 
 
                 <!-- Toast para eliminar un producto -->
-                <div id="toastEliminarAlmacen" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div id="toastEliminarGasto" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body  d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
@@ -129,20 +144,6 @@
 
 
 
-
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   -->
-
-
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/datatables.min.js"></script> -->
-
-
-
-
-
-
-
     <script>
         function confirmDelete() {
             return confirm("¿Estás seguro de que deseas eliminar este Almacen?");
@@ -157,25 +158,35 @@
             // new DataTable("#prodTable");
 
             // Inicializar DataTables
-            tablaInventario = $('#almacenTable').DataTable({
+            tablaInventario = $('#gastoTable').DataTable({
                 // scrollX: true, // Permitir scroll horizontal
 
 
                 ajax: {
-                    url: 'get_almacenes.php', // El archivo que obtiene los registros
+                    url: 'get_gastos.php', // El archivo que obtiene los registros
                     dataSrc: '' // Los datos provienen directamente del JSON (sin necesidad de envolver en otra propiedad)
                 },
                 columns: [{
-                        data: 'id_alm',
+                        data: 'ID_Gasto',
                         render: function(data, type, row) {
-                            return `ALM-${data}`; // Formato con prefijo PROD-
+                            return `GSTO-${data}`; // Formato con prefijo PROD-
                         }
                     },
                     {
-                        data: 'nom_alm'
+                        data: 'Nom_Gasto'
                     },
                     {
-                        data: 'descrip_alm'
+                        data: 'Monto_Gasto'
+                    },
+                    {
+                        data: 'Fech_Pag_Gasto'
+                    },
+
+                    {
+                        data: 'FOT_EVE_TMPNAME',
+                        render: function(data, type, row) {
+                            return `<a href='${data}' target='_blank'>Ver Archivo</a>`;
+                        }
                     },
 
                     {
@@ -183,8 +194,8 @@
                         render: function(data, type, row) {
                             return `
     
-                                <button class="btn btn-secondary tablaModificar" data-id="${row.id_alm}">Modificar</button>
-                                <button class="btn btn-danger tablaEliminar" data-id="${row.id_alm}">Eliminar</button>
+                                <button class="btn btn-secondary tablaModificar" data-id="${row.ID_Gasto}">Modificar</button>
+                                <button class="btn btn-danger tablaEliminar" data-id="${row.ID_Gasto}">Eliminar</button>
                                
 
         
@@ -195,7 +206,7 @@
             });
 
             //aca se agrega o modifica un almacen
-            $('#formAgregarModificarAlmacen').on('submit', function(e) {
+            $('#formAgregarModificarGasto').on('submit', function(e) {
 
                 // console.log("entrando a submit");
 
@@ -215,7 +226,7 @@
 
                 // Realiza la solicitud AJAX
                 $.ajax({
-                    url: 'agregar_mod_almacen.php', // Dirección del servidor
+                    url: 'agregar_mod_gasto.php', // Dirección del servidor
                     method: 'POST',
                     data: formData,
                     dataType: 'json', // Esperamos una respuesta JSON
@@ -223,16 +234,16 @@
                         tablaInventario.ajax.reload();
                         if (response.status === 'success') {
                             // alert(response.message);
-                            if ($('#id_almacen').val()) {
+                            if ($('#id_gasto').val()) {
                                 // Si el ID del diamante está vacío, es una acción de agregar
-                                $('#toastModificarAlmacen').toast('show');
-                                console.log("almacen modificado");
+                                $('#toastModificarGasto').toast('show');
+                                console.log("Gasto modificado");
                                 limpiarFormAlmacen();
                             } else {
                                 // Si el ID del diamante no está vacío, es una acción de modificar
-                                $('#toastAgregarAlmacen').toast('show');
-                                console.log("Almacen agregado");
-                                limpiarFormAlmacen();
+                                $('#toastAgregarGasto').toast('show');
+                                console.log("Gasto agregado");
+                                limpiarFormGasto();
                             }
 
                         } else {
@@ -240,7 +251,7 @@
                             $('#toastErrorModify').toast('show');
                             console.log("producto error  error")
                         }
-                        limpiarFormAlmacen();
+                        limpiarFormGasto();
                     },
                     error: function(xhr, status, error) {
                         // alert('Ocurrió un error al procesar la solicitud (modificar_diamante.php).');
@@ -253,16 +264,16 @@
 
 
             //------------------- BOTON O ENLACE MODIFICAR, AL HACERLE CLICK-------------------------------------------
-            $('#almacenTable tbody').on('click', '.tablaModificar', function() {
+            $('#gastoTable tbody').on('click', '.tablaModificar', function() {
                 // console.log("hola sofia");
                 // e.preventDefault();
-                $("#formAlmacenTitulo").html("Modificar Almacen");
-                $("#btn-almacen").html("Modificar Almacen");
+                $("#formGastoTitulo").html("Modificar Gasto");
+                $("#btn-gasto").html("Modificar Gasto");
 
                 const id = $(this).data('id');
                 // console.log("id 11 =>", id)
                 $.ajax({
-                    url: 'get_almacen.php',
+                    url: 'get_gasto.php',
                     method: 'POST',
                     data: {
                         id
@@ -271,9 +282,11 @@
                     success: function(data) {
 
                         console.log("data22 =>", data)
-                        $('#id_almacen').val(data.id_alm);
-                        $('#nom_alm').val(data.nom_alm);
-                        $('#descrip_alm').val(data.descrip_alm);
+                        $('#id_gasto').val(data.ID_Gasto);
+                        $('#nom_gasto').val(data.Nom_Gasto);
+                        $('#monto_gasto').val(data.Monto_Gasto);
+                        $('#fech_pag_gasto').val(data.Fech_Pag_Gasto);
+                        $('#archivo').val(data.FOT_EVE_NAME);
 
 
 
@@ -288,21 +301,21 @@
 
             //------------------- BOTON O ENLACE ELIMINAR, AL HACERLE CLICK-------------------------------------------
 
-            $('#almacenTable tbody').on('click', '.tablaEliminar', function() {
+            $('#gastoTable tbody').on('click', '.tablaEliminar', function() {
                 const id = $(this).data('id');
 
                 // Aquí puedes realizar una solicitud AJAX para eliminar el registro
                 $.ajax({
-                    url: 'delete_almacen.php', // Ruta del archivo que manejará la eliminación
+                    url: 'delete_gasto.php', // Ruta del archivo que manejará la eliminación
                     type: 'POST',
                     data: {
                         id
                     },
                     success: function(response) {
-                        $('#toastEliminarAlmacen').toast('show');
+                        $('#toastEliminarGasto').toast('show');
                         // alert('Registro eliminado exitosamente');
                         tablaInventario.ajax.reload(); // Recargar la tabla para reflejar los cambios
-                        limpiarFormAlmacen();
+                        limpiarFormGasto();
                     },
                     error: function(xhr, status, error) {
                         alert('Error al eliminar el registro: ' + error);
@@ -319,10 +332,11 @@
 
         });
 
-        function limpiarFormAlmacen() {
-            $('#id_almacen').val("");
-            $('#nom_alm').val("");
-            $('#descrip_alm').val("");
+        function limpiarFormGasto() {
+            $('#id_gasto').val("");
+            $('#nom_gasto').val("");
+            $('#monto_gasto').val("");
+            $('#archivo').val("");
 
         }
     </script>

@@ -1,7 +1,7 @@
 
 
 .sidebar {
-    width: 250px; /* Ancho fijo del sidebar */
+    width: 292px; /* Ancho fijo del sidebar */
     min-height: calc(100vh - 97px); /* Altura completa - Altura de navbar */
     flex: 0 0 auto; /* evita que flex cambie su ancho */
     overflow-y: auto; /* Scroll en caso de contenido largo */
@@ -105,13 +105,17 @@ td {
 
 
 .bg-marmol {
-    background-color:#b7b7b7 ;
+    background-color:#85008f ;
 }
 
 .bg-darkmarmol{
-    background-color: #999999;
+    background-color: #85008f;
     
 }
+.rounded-circle {
+    border: 2px solid white; /* Para resaltar la imagen */
+  }
+  
 
 .color-footer {
     color: rgb(179, 175, 175);
