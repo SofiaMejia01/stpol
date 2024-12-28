@@ -8,6 +8,21 @@ $(document).ready(function () {
 
     });
 
+
+    // $(document).ready(function () {
+    //     // Seleccionar el elemento <nav> con id "sidebar"
+    //     $('.btn-close').on('click', function () {
+    //         const sidebar = $('#sidebar');
+    
+    //         // Alternar la clase de colapso del sidebar
+    //         sidebar.toggleClass('sidebar-collapsed');
+    
+    //     });
+    // });
+
+
+
+
  
 
     // Cargar contenido dinámico al hacer clic en los enlaces

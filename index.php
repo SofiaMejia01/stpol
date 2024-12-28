@@ -94,9 +94,12 @@ if (!file_exists($filePath)) {
         <!-- Sidebar -->
         <nav class="bg-darkmarmol sidebar border-end" id="sidebar">
             <div class="position-sticky">
-                <div class="d-flex">
-                <img src="img/logo_STPOL.png" alt="Logo" class="my-4 mx-5" style="height: 80px; object-fit: contain;">
-                <button type="button" class="btn-close btn-close-white mt-4" style="margin-left: 70px" ></button>
+                <div class="position-relative text-center">
+                    <div class="me-4 mt-4">
+                    <img src="img/logo_STPOL.png" alt="Logo" class="my-4 mx-5" style="height: 80px; object-fit: contain;">
+                    </div>
+<!--                 
+                <button type="button" class="btn-close btn-close-white mt-2 position-absolute" style="top: 15px; right: 15px;" ></button> -->
                </div>
              
                 <hr style="background-color: #aa6ecf; border-color: #aa6ecf; height: 2px;">
@@ -140,7 +143,11 @@ if (!file_exists($filePath)) {
     </footer>
 
 
+<script>
+    // Seleccionar el botón de cierre
 
+
+</script>
 
 
 </body>
