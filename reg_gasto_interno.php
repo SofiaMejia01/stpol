@@ -19,7 +19,7 @@
             <div class="col-12 col-xl-4">
                 <div class="container mt-3">
                     <h5 id=formGastoTitulo>Agregar Nuevo Gasto Interno</h5>
-                    <form id="formAgregarModificarGasto" class="p-3 border rounded">
+                    <form id="formAgregarModificarGasto" class="p-3 border rounded" enctype="multipart/form-data">
                         <input type="hidden" id="id_gasto" name="id_gasto">
 
                         <div class="form-group mb-3">
@@ -167,10 +167,7 @@
                     dataSrc: '' // Los datos provienen directamente del JSON (sin necesidad de envolver en otra propiedad)
                 },
                 columns: [{
-                        data: 'ID_Gasto',
-                        render: function(data, type, row) {
-                            return `GSTO-${data}`; // Formato con prefijo PROD-
-                        }
+                        data: 'ID_Gasto'
                     },
                     {
                         data: 'Nom_Gasto'
@@ -212,17 +209,13 @@
 
                 e.preventDefault(); // Evita el envío tradicional del formulario
 
+                var form = document.querySelector('#formAgregarModificarGasto');
                 // Serializa los datos del formulario
-                var formData = $(this).serialize();
+                var formData = new FormData(form);
 
-
-                // Validación manual opcional
-                // if (!formData.includes('tipo_certificado') || !formData.includes('numero_certificado')) {
-                //     alert('Todos los campos obligatorios deben completarse.');
-                //     return;
-                // }
-
-                console.log('Datos enviados:', formData); // Verifica qué datos se están enviando
+                for (let pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
 
                 // Realiza la solicitud AJAX
                 $.ajax({
@@ -230,6 +223,9 @@
                     method: 'POST',
                     data: formData,
                     dataType: 'json', // Esperamos una respuesta JSON
+                    processData: false, // IMPORTANTE: Evita que jQuery procese los datos
+                    contentType: false, // IMPORTANTE: Evita que jQuery establezca un encabezado incorrecto
+
                     success: function(response) {
                         tablaInventario.ajax.reload();
                         if (response.status === 'success') {
