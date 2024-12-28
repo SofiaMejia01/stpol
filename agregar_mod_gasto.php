@@ -59,25 +59,30 @@ if ($gasto_id) {
    
 }
 else {
-  
-    $insert_query = "INSERT INTO t_gasto_interno (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($insert_query);
 
-    if ($stmt) {
-        // Bind parameters
-        $stmt->bind_param("sdsssss", $nombreGasto, $montoGasto, $fechaPagoGasto, $nombre_archivo, $tipo_archivo, $tamano_archivo,  $ruta_destino);
-        $stmt->execute();
+    if(move_uploaded_file($ruta_temporal, $ruta_destino)){
+        $insert_query = "INSERT INTO t_gasto_interno (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_query);
 
-        if ($stmt->affected_rows > 0) {
-            echo json_encode(['status' => 'success', 'message' => ' Servicio agregado exitosamente.']);
+        if ($stmt) {
+            // Bind parameters
+            $stmt->bind_param("sdsssss", $nombreGasto, $montoGasto, $fechaPagoGasto, $nombre_archivo, $tipo_archivo, $tamano_archivo,  $ruta_destino);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                echo json_encode(['status' => 'success', 'message' => ' Servicio agregado exitosamente.']);
+            } else {
+                echo json_encode(['error' => 'No se pudo crear el registro']);
+            }
+
+            $stmt->close();
         } else {
-            echo json_encode(['error' => 'No se pudo crear el registro']);
-        }
+            echo json_encode(['error' => 'Error en la preparación del SQL (INSERT)']);
+        }  
+    }else{
+        echo json_encode(['error' => 'No se pudo mover el archivo de la ruta temporal a la ruta destino']);  
+    }
 
-        $stmt->close();
-    } else {
-        echo json_encode(['error' => 'Error en la preparación del SQL (INSERT)']);
-    }  
 }
   
 
