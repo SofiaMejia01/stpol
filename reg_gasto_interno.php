@@ -39,12 +39,8 @@
                             <label for="archivo" class="form-label ">Adjuntar Comprobante de Pago:</label>
                             <input type="file" class="form-control" id="archivo" name="archivo" required>
 
-                            <?php if (!empty($row['FOT_EVE_NAME'])): ?>
-                                <small>
-                                    <br>Archivo actual:
-                                    <?php echo htmlspecialchars($row['FOT_EVE_NAME']); ?>
-                                </small>
-                            <?php endif; ?>
+                            <div id="mostrarNombreArchivo">
+                            </div>
                         </div>
 
 
@@ -282,9 +278,20 @@
                         $('#nom_gasto').val(data.Nom_Gasto);
                         $('#monto_gasto').val(data.Monto_Gasto);
                         $('#fech_pag_gasto').val(data.Fech_Pag_Gasto);
-                        $('#archivo').val(data.FOT_EVE_NAME);
+                       
 
+                        if(data.FOT_EVE_NAME){
+                            const htmlArchivo = `
+                                <small>
+                                    <br>Archivo actual:
+                                    ${data.FOT_EVE_NAME}
+                                </small>`;
+                            $("#mostrarNombreArchivo").html(htmlArchivo);
+                        }else{
+                            $("#mostrarNombreArchivo").html()
+                        }
 
+                        
 
                     },
                     error: function(xhr, status, error) {
