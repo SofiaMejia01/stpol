@@ -37,7 +37,7 @@
 
                         <div class="form-group mb-3">
                             <label for="archivo" class="form-label ">Adjuntar Comprobante de Pago:</label>
-                            <input type="file" class="form-control" id="archivo" name="archivo" required>
+                            <input type="file" class="form-control" id="archivo" name="archivo">
 
                             <div id="mostrarNombreArchivo">
                             </div>
@@ -230,7 +230,7 @@
                                 // Si el ID del diamante está vacío, es una acción de agregar
                                 $('#toastModificarGasto').toast('show');
                                 console.log("Gasto modificado");
-                                limpiarFormAlmacen();
+                                limpiarFormGasto();
                             } else {
                                 // Si el ID del diamante no está vacío, es una acción de modificar
                                 $('#toastAgregarGasto').toast('show');
@@ -339,8 +339,7 @@
             $('#id_gasto').val("");
             $('#nom_gasto').val("");
             $('#monto_gasto').val("");
-            $('#archivo').val("");
-
+            $('#mostrarNombreArchivo').html();
         }
     </script>
 

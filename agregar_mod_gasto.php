@@ -16,57 +16,69 @@ $nombreGasto = $_POST['nom_gasto'];
 $montoGasto = $_POST['monto_gasto'];
 $fechaPagoGasto = $_POST['fech_pag_gasto'];
 
-$archivo = $_FILES['archivo'];
-$nombre_archivo = $archivo['name'];
-$tipo_archivo = $archivo['type'];
-$tamano_archivo = $archivo['size'];
-$ruta_temporal = $archivo['tmp_name'];
-$ruta_destino = 'servicios/' . basename($nombre_archivo);
+if(isset($_FILES['archivo'])) {
+    $archivo = $_FILES['archivo'];
+    $nombre_archivo = $archivo['name'];
+    $tipo_archivo = $archivo['type'];
+    $tamano_archivo = $archivo['size'];
+    $ruta_temporal = $archivo['tmp_name'];
+    $ruta_destino = 'servicios/' . basename($nombre_archivo);
+}
 
 if ($gasto_id) {
     
     // Definir la ruta donde se guardará el archivo
     
 
-    if (move_uploaded_file($ruta_temporal, $ruta_destino)) {
+    if ($archivo && move_uploaded_file($ruta_temporal, $ruta_destino)) {
         // Preparar la consulta SQL para insertar datos
-        $sql = "INSERT INTO t_gasto_interno (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "UPDATE t_gasto_interno SET 
+                        Nom_Gasto = ?, 
+                        Monto_Gasto = ?, 
+                        Fech_Pag_Gasto = ?, 
+                        FOT_EVE_NAME = ?, 
+                        FOT_EVE_TYPE = ?, 
+                        FOT_EVE_SIZE = ?, 
+                        FOT_EVE_TMPNAME = ? 
+                        WHERE ID_Gasto = ?";
         
         // Preparar la declaración
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdsssss", $nombreGasto, $montoGasto, $fechaPagoGasto, $nombre_archivo, $tipo_archivo, $tamano_archivo,  $ruta_destino);
-
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            // echo "Gasto registrado exitosamente.";
-
-          
-
-
-           
-        } else {
-            // echo "Error al registrar el gasto: " . $stmt->error;
-            $response = ['status' => 'error', 'message' => $stmt->error];
-        }
-
+        $stmt->bind_param("sdsssssi", $nombreGasto, $montoGasto, $fechaPagoGasto, 
+            $nombre_archivo, $tipo_archivo, $tamano_archivo, $ruta_destino, $gasto_id);
        
     } else {
-        echo "Error al mover el archivo.";
+        $sql = "UPDATE t_gasto_interno SET 
+                    Nom_Gasto = ?, 
+                    Monto_Gasto = ?, 
+                    Fech_Pag_Gasto = ? 
+                    WHERE ID_Gasto = ?";
+        // Si no se sube un archivo, solo actualizamos los campos sin los relacionados al archivo
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sdsi", $nombreGasto, $montoGasto, $fechaPagoGasto,  $gasto_id);
     }
 
-    echo json_encode($response);
-    exit;   
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+    } 
+    
+    $stmt->close();
    
 }
 else {
 
-    if(move_uploaded_file($ruta_temporal, $ruta_destino)){
-        $insert_query = "INSERT INTO t_gasto_interno (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    if($archivo && move_uploaded_file($ruta_temporal, $ruta_destino)){
+        $insert_query = "INSERT INTO t_gasto_interno 
+            (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($insert_query);
 
         if ($stmt) {
             // Bind parameters
-            $stmt->bind_param("sdsssss", $nombreGasto, $montoGasto, $fechaPagoGasto, $nombre_archivo, $tipo_archivo, $tamano_archivo,  $ruta_destino);
+            $stmt->bind_param("sdsssss", $nombreGasto, $montoGasto, $fechaPagoGasto, 
+                $nombre_archivo, $tipo_archivo, $tamano_archivo,  $ruta_destino);
             $stmt->execute();
 
             if ($stmt->affected_rows > 0) {
