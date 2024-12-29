@@ -84,7 +84,7 @@ if ($gasto_id) {
 }
 else {
 
-    if($archivo  && $tamano_archivo > 0 && move_uploaded_file($ruta_temporal, $ruta_destino)){
+    if($archivo && $tamano_archivo > 0 && move_uploaded_file($ruta_temporal, $ruta_destino)){
         $insert_query = "INSERT INTO t_gasto_interno 
             (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";

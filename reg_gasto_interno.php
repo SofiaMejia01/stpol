@@ -237,13 +237,12 @@
                                 // Si el ID del diamante está vacío, es una acción de agregar
                                 $('#toastModificarGasto').toast('show');
                                 console.log("Gasto modificado");
-                                limpiarFormGasto();
                             } else {
                                 // Si el ID del diamante no está vacío, es una acción de modificar
                                 $('#toastAgregarGasto').toast('show');
                                 console.log("Gasto agregado");
-                                limpiarFormGasto();
                             }
+                            limpiarFormGasto();
 
                         } else {
                             // alert('Error: ' + response.message);
@@ -349,6 +348,10 @@
             $('#fech_pag_gasto').val("");
             $('#archivo').val("");
             $('#mostrarNombreArchivo').html();
+
+            // reiniciar título del formulario y texto de botón
+            $('#formGastoTitulo').html('Agregar Nuevo Gasto Interno');
+            $('#btn-gasto').html('Agregar');
         }
     </script>
 
