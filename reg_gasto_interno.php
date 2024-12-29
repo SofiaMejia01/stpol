@@ -339,7 +339,10 @@
             $('#id_gasto').val("");
             $('#nom_gasto').val("");
             $('#monto_gasto').val("");
-            $('#mostrarNombreArchivo').html();
+            $('#fech_pag_gasto').val("");
+            $('#archivo').val("");
+           
+            $('#mostrarNombreArchivo').html("");
         }
     </script>
 

@@ -51,9 +51,9 @@ $(document).ready(function () {
          // Cambia la dirección de la flecha dependiendo de su estado
          const isExpanded = $(this).attr('aria-expanded') === 'true';
          if (isExpanded) {
-             arrow.css('transform', 'rotate(0deg)'); // Flecha hacia abajo
+             arrow.css('transform', 'rotate(90deg)'); // Flecha hacia abajo
          } else {
-             arrow.css('transform', 'rotate(180deg)'); // Flecha hacia arriba
+             arrow.css('transform', 'rotate(360deg)'); // Flecha hacia arriba
          }
     });
 
