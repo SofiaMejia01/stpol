@@ -180,7 +180,12 @@
                     {
                         data: 'FOT_EVE_TMPNAME',
                         render: function(data, type, row) {
-                            return `<a href='${data}' target='_blank'>Ver Archivo</a>`;
+                            if(data) {
+                                return `<a href='${data}' target='_blank'>Ver Archivo</a>`;
+                            }
+
+                            return '<span class="badge rounded-pill text-bg-info">Archivo no<br>cargado</span>';
+                            
                         }
                     },
 

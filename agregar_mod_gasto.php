@@ -37,7 +37,7 @@ if ($gasto_id) {
     $stmtSelect->close();
     
 
-    if ($archivo && move_uploaded_file($ruta_temporal, $ruta_destino)) {
+    if ($archivo && $tamano_archivo > 0 && move_uploaded_file($ruta_temporal, $ruta_destino)) {
         // Verificar si existe un archivo anterior y eliminarlo
         if ($currentFileName != '') {
             $filePath = 'servicios/' . $currentFileName;
@@ -84,7 +84,7 @@ if ($gasto_id) {
 }
 else {
 
-    if($archivo && move_uploaded_file($ruta_temporal, $ruta_destino)){
+    if($archivo  && $tamano_archivo > 0 && move_uploaded_file($ruta_temporal, $ruta_destino)){
         $insert_query = "INSERT INTO t_gasto_interno 
             (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -104,10 +104,29 @@ else {
 
             $stmt->close();
         } else {
-            echo json_encode(['error' => 'Error en la preparación del SQL (INSERT)']);
+            echo json_encode(['error' => 'Error en la preparación del SQL (INSERT 1)']);
         }  
     }else{
-        echo json_encode(['error' => 'No se pudo mover el archivo de la ruta temporal a la ruta destino']);  
+        $insert_query = "INSERT INTO t_gasto_interno 
+        (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto) 
+        VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($insert_query);
+
+        if ($stmt) {
+            // Bind parameters
+            $stmt->bind_param("sds", $nombreGasto, $montoGasto, $fechaPagoGasto);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                echo json_encode(['status' => 'success', 'message' => ' Servicio agregado exitosamente.']);
+            } else {
+                echo json_encode(['error' => 'No se pudo crear el registro']);
+            }
+
+            $stmt->close();
+        } else {
+            echo json_encode(['error' => 'Error en la preparación del SQL (INSERT 2)']);
+        } 
     }
 
 }
