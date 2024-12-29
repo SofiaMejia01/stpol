@@ -18,7 +18,7 @@ $fechaPagoGasto = $_POST['fech_pag_gasto'];
 
 if(isset($_FILES['archivo'])) {
     $archivo = $_FILES['archivo'];
-    $nombre_archivo = $archivo['name'];
+    $nombre_archivo = uniqid('', true).".".$archivo['name'];
     $tipo_archivo = $archivo['type'];
     $tamano_archivo = $archivo['size'];
     $ruta_temporal = $archivo['tmp_name'];
@@ -27,10 +27,25 @@ if(isset($_FILES['archivo'])) {
 
 if ($gasto_id) {
     
-    // Definir la ruta donde se guardará el archivo
+    // Consultar el nombre del archivo actual asociado al registro
+    $query = "SELECT FOT_EVE_NAME FROM t_gasto_interno WHERE ID_Gasto = ?";
+    $stmtSelect = $conn->prepare($query);
+    $stmtSelect->bind_param("i", $gasto_id);
+    $stmtSelect->execute();
+    $stmtSelect->bind_result($currentFileName);
+    $stmtSelect->fetch();
+    $stmtSelect->close();
     
 
     if ($archivo && move_uploaded_file($ruta_temporal, $ruta_destino)) {
+        // Verificar si existe un archivo anterior y eliminarlo
+        if ($currentFileName != '') {
+            $filePath = 'servicios/' . $currentFileName;
+            if (file_exists($filePath)) {
+                unlink($filePath); // Eliminar archivo anterior
+            }
+        }
+
         // Preparar la consulta SQL para insertar datos
         $sql = "UPDATE t_gasto_interno SET 
                         Nom_Gasto = ?, 

@@ -35,13 +35,15 @@
                             <input type="date" name="fech_pag_gasto" id="fech_pag_gasto" class="form-control" required>
                         </div>
 
-                        <div class="form-group mb-3">
+                        <div  class="form-group mb-3">
                             <label for="archivo" class="form-label ">Adjuntar Comprobante de Pago:</label>
-                            <input type="file" class="form-control" id="archivo" name="archivo">
+                            <input type="file" id="archivo" name="archivo"  class="form-control" >
 
                             <div id="mostrarNombreArchivo">
                             </div>
                         </div>
+
+
 
 
                         <button id="btn-gasto" type="submit" class="btn btn-primary">Agregar</button>
@@ -341,8 +343,7 @@
             $('#monto_gasto').val("");
             $('#fech_pag_gasto').val("");
             $('#archivo').val("");
-           
-            $('#mostrarNombreArchivo').html("");
+            $('#mostrarNombreArchivo').html();
         }
     </script>
 
