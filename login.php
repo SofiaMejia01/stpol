@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <form method="POST" class="login-form" action="login.php">
 
-                <img src="img/logo_principal.png" alt="Logo" class="mb-5">
+                <img src="img/logo_STPOL.png" alt="Logo" class="mb-5" style="height: 90px;">
                 <input type="text" name="Nombre_Usuario" placeholder="usuario"  required />
                 <input type="password" name="Password_Usuario" placeholder="contraseña" required/>
                 <button type="submit">login</button>

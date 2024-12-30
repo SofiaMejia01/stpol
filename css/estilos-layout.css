@@ -1,0 +1,99 @@
+
+.sidebar {
+    width: 292px; /* Ancho fijo del sidebar */
+    /* max-height: calc(100vh);  */
+    /* height: 100vh; */
+    flex: 0 0 auto; /* evita que flex cambie su ancho */
+    overflow-y: auto; /* Scroll en caso de contenido largo */
+    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out, width 0.3s ease-in-out;
+    background-color: #343a40; /* Fondo oscuro */
+     
+}
+
+.sidebar-collapsed {
+    transform: translateX(-100%); /* Mueve el sidebar fuera de la pantalla */
+    width: 0; /* Ancho del sidebar colapsado */
+    opacity: 0; /* Desvanece el sidebar */
+}
+
+
+/* @media (max-width: 768px) {
+    .sidebar{ 
+        position: fixed; 
+        
+        height: 100%;
+    }  
+} */
+
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: fixed;
+        top: 56px; /* Debajo del header (altura navbar) */
+        left: 0;
+        width: 100%; /* Ocupa todo el ancho */
+        /* max-height: calc(100vh); */
+         height: 100%;  
+        z-index: 1050; /* Colocar encima del contenido principal */
+        transform: translateX(-100%); /* Ocultar por defecto */
+    }
+
+    .sidebar-collapsed {
+        transform: translateX(0); /* Mostrar sidebar */
+        opacity: 1; /* Hacerlo visible */
+    }
+}
+
+@media (min-width: 768px){
+    .sidebar-main {
+        display: flex;
+       
+    }
+
+    .sidebar {
+        margin-top: 56px; 
+    }
+
+   
+}
+
+.bg-marmol {
+    background-color:#85008f ;
+}
+
+.bg-darkmarmol{
+    background-color: #85008f;
+    
+}
+.rounded-circle {
+    border: 2px solid white; /* Para resaltar la imagen */
+  }
+  
+
+.color-footer {
+    color: rgb(179, 175, 175);
+    /*height: 55px;*/
+  }
+
+
+
+
+.nav-link[aria-expanded="true"] .arrow {
+    transform: rotate(90deg); /* Gira hacia arriba */
+}
+
+
+.nav-link:hover {
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.2
+    ); /* Resaltar enlaces al pasar el mouse */
+  }
+
+  .nav-link {
+    padding: 15px 15px !important;
+    border-radius: 5px;
+     }

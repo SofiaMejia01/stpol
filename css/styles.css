@@ -1,24 +1,12 @@
 
 
-.sidebar {
-    width: 292px; /* Ancho fijo del sidebar */
-    min-height: calc(100vh - 97px); /* Altura completa - Altura de navbar */
-    flex: 0 0 auto; /* evita que flex cambie su ancho */
-    overflow-y: auto; /* Scroll en caso de contenido largo */
-    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out, width 0.3s ease-in-out;
-    background-color: #343a40; /* Fondo oscuro */
-}
 
-.sidebar-collapsed {
-    transform: translateX(-100%); /* Mueve el sidebar fuera de la pantalla */
-    width: 0; /* Ancho del sidebar colapsado */
-    opacity: 0; /* Desvanece el sidebar */
-}
 
 #main-content {
     flex: 1 1 auto; /* toma el espacio restante */
     transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
     overflow-x: auto; /* genera scroll horizontal*/
+    margin-top: 70px;
 }
 
 
@@ -63,6 +51,7 @@ td {
 
 /* mobile */
 @media (max-width: 768px) {
+   
     .sidebar {
         position: fixed;
         top: 56px; /* Debajo del header (altura navbar) */
@@ -83,6 +72,7 @@ td {
         position: relative; /* Asegurar que el contenido no se superponga al sidebar */
         z-index: 1;
     }
+
 }
 
 @media (min-width: 768px){
@@ -90,37 +80,14 @@ td {
         display: flex;
     }
 
-   
-}
+ }
 
 .arrow {
     transition: transform 0.3s ease-in-out; /* Animación suave */
     display: inline-block; /* Asegura que se comporte como un elemento inline-block */
 }
 
-.nav-link[aria-expanded="true"] .arrow {
-    transform: rotate(180deg); /* Gira hacia arriba */
-}
 
-
-
-.bg-marmol {
-    background-color:#85008f ;
-}
-
-.bg-darkmarmol{
-    background-color: #85008f;
-    
-}
-.rounded-circle {
-    border: 2px solid white; /* Para resaltar la imagen */
-  }
-  
-
-.color-footer {
-    color: rgb(179, 175, 175);
-    /*height: 55px;*/
-  }
 
 
 tfoot {

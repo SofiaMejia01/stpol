@@ -46,14 +46,14 @@ body, html {
   }
 
   .form input:focus{
-    outline: 1px solid #000066;
+    outline: 1px solid #85008f;
     
   }
   .form button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #000066;
+    background: #85008f;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -65,7 +65,7 @@ body, html {
     border-radius: 3px;
   }
   .form button:hover,.form button:active,.form button:focus {
-    background: #000066;
+    background: #85008f;
   }
   .form .message {
     margin: 15px 0 0;
@@ -73,7 +73,7 @@ body, html {
     font-size: 12px;
   }
   .form .message a {
-    color: #000066;
+    color: #85008f;
     text-decoration: none;
   }
   .form .register-form {

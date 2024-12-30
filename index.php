@@ -37,6 +37,7 @@ if (!file_exists($filePath)) {
 
     <!-- Rutas Absolutas para Estilos y Scripts -->
     <link rel="stylesheet" href="<?php echo $basePath; ?>/css/styles.css">
+    <link rel="stylesheet" href="<?php echo $basePath; ?>/css/estilos-layout.css">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -65,12 +66,12 @@ if (!file_exists($filePath)) {
 </head>
 
 <body>
-    <header class="navbar navbar-dark bg-marmol">
+    <header class="navbar navbar-dark bg-marmol fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler me-3" type="button" id="toggle-sidebar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- <a href="#" class="navbar-brand ms-3">Dynamic Layout</a> -->
+            
             <!-- Logo -->
             <a href="index.php" class="">
                 <img src="img/logo_STPOL.png" alt="Logo" class="d-none d-sm-block" style="height: 40px; object-fit: cover;">
@@ -98,31 +99,33 @@ if (!file_exists($filePath)) {
                     <div class="me-4 mt-4">
                     <img src="img/logo_STPOL.png" alt="Logo" class="my-4 mx-5" style="height: 80px; object-fit: contain;">
                     </div>
-<!--                 
-                <button type="button" class="btn-close btn-close-white mt-2 position-absolute" style="top: 15px; right: 15px;" ></button> -->
+
                </div>
              
                 <hr style="background-color: #aa6ecf; border-color: #aa6ecf; height: 2px;">
                 <ul class="nav flex-column py-3">
 
-                    <li class="nav-item">
-                        <a href="#administracion" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
-
-                            Administracion
+        
+                    <li class="nav-item mx-3">
+                        <a  href="#administracion" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fa-solid fa-user-tie"></i> &nbsp;
+                            Administración
                             <span class="arrow float-end">
                                 <!-- Flecha hacia abajo -->
-                                <i class="fa-solid fa-angle-down"></i>
+                                <i class="fa-solid fa-angle-right"></i>
                             </span>
                         </a>
                         <div class="collapse" id="administracion">
                             <ul class="submenu list-unstyled ps-3">
-                                <li><a href="reg_gasto_interno" class="nav-link text-white">Registro de Gastos Internos</a></li>
-                                <li><a href="registro_curso" class="nav-link text-white">Registro de Cursos</a></li>
-                                <li><a href="programacion_curso" class="nav-link text-white">Programacion de Cursos</a></li>
+                                <li><a href="reg_gasto_interno" class="nav-link text-white"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Registro de Gastos Internos</a></li>
+                                <li><a href="registro_curso" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Registro de Cursos</a></li>
+                                <li><a href="programacion_curso" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Programación de Cursos</a></li>
 
                             </ul>
                         </div>
                     </li>
+         
+         
                 </ul>
             </div>
         </nav>
