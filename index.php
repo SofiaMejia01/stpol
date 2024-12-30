@@ -103,7 +103,7 @@ if (!file_exists($filePath)) {
                </div>
              
                 <hr style="background-color: #aa6ecf; border-color: #aa6ecf; height: 2px;">
-                <ul class="nav flex-column py-3">
+                <ul class="nav flex-column py-1">
 
         
                     <li class="nav-item mx-3">
@@ -127,24 +127,25 @@ if (!file_exists($filePath)) {
          
          
                 </ul>
+           
             </div>
         </nav>
         <!-- Main Content -->
-        <main class="px-3" id="main-content">
-            <?php include $filePath; ?>
+        <main id="main-content">
+            <div class="px-3">
+                <?php include $filePath; ?>
+            </div>
+            <footer class="py-2 bg-dark color-footer mt-auto">
+                <div class="container-fluid px-4 mb-1 d-flex align-items-center  justify-content-center">
+                    <div class="d-flex  small text-center">
+                        <div class="mx-2">&copy 2024 STPOL. Todos los derechos reservados. Versión 1.0. </div>
+                        <!-- <div><a class="mx-2 color-footer" href="#">Política de Privacidad</a></div>
+                        <div><a class="mx-1 color-footer" href="#">Términos &amp; Condiciones</a></div> -->
+                    </div>
+                </div>
+            </footer>
         </main>
     </div>
-
-    <footer class="py-2 bg-dark color-footer mt-auto">
-        <div class="container-fluid px-4 mb-1 d-flex align-items-center  justify-content-center">
-            <div class="d-flex  small text-center">
-                <div class="mx-2">&copy 2024 STPOL. Todos los derechos reservados. Versión 1.0. </div>
-                <!-- <div><a class="mx-2 color-footer" href="#">Política de Privacidad</a></div>
-                <div><a class="mx-1 color-footer" href="#">Términos &amp; Condiciones</a></div> -->
-            </div>
-        </div>
-    </footer>
-
 
 <script>
     // Seleccionar el botón de cierre

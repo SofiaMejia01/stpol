@@ -1,30 +1,19 @@
-
-.sidebar {
-    width: 292px; /* Ancho fijo del sidebar */
-    /* max-height: calc(100vh);  */
-    /* height: 100vh; */
-    flex: 0 0 auto; /* evita que flex cambie su ancho */
-    overflow-y: auto; /* Scroll en caso de contenido largo */
-    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out, width 0.3s ease-in-out;
-    background-color: #343a40; /* Fondo oscuro */
-     
+.sidebar-main {
+    margin-top: 56px;
+    height: calc(100vh - 56px); /* Ocupa toda la altura menos el header */
 }
 
-.sidebar-collapsed {
-    transform: translateX(-100%); /* Mueve el sidebar fuera de la pantalla */
-    width: 0; /* Ancho del sidebar colapsado */
-    opacity: 0; /* Desvanece el sidebar */
+.sidebar-container {
+    overflow-y: auto;
+    /*height: calc(100vh - 56px);*/ /* Ocupa toda la altura menos el header */
+    height: calc(100vh - 100px);
 }
 
-
-/* @media (max-width: 768px) {
-    .sidebar{ 
-        position: fixed; 
-        
-        height: 100%;
-    }  
-} */
-
+#main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 56px);
+}
 
 @media (max-width: 768px) {
 
@@ -48,13 +37,30 @@
 @media (min-width: 768px){
     .sidebar-main {
         display: flex;
-       
     }
 
     .sidebar {
-        margin-top: 56px; 
+        width: 315px; /* Ancho fijo del sidebar */
+        flex: 0 0 auto; /* evita que flex cambie su ancho */
+        transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out, width 0.3s ease-in-out;
+        background-color: #343a40; /* Fondo oscuro */ 
+    }
+    
+    .sidebar-collapsed {
+        transform: translateX(-100%); /* Mueve el sidebar fuera de la pantalla */
+        width: 0; /* Ancho del sidebar colapsado */
+        opacity: 0; /* Desvanece el sidebar */
     }
 
+    #main-content {
+        flex: 1 1 auto; /* toma el espacio restante */
+        transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+        overflow-x: auto;
+    }
+
+    /* .sidebar {
+        margin-top: 56px; 
+    } */
    
 }
 

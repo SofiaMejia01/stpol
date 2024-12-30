@@ -1,15 +1,3 @@
-
-
-
-
-#main-content {
-    flex: 1 1 auto; /* toma el espacio restante */
-    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-    overflow-x: auto; /* genera scroll horizontal*/
-    margin-top: 70px;
-}
-
-
 td {
     border-style:none;
 }
@@ -65,12 +53,6 @@ td {
     .sidebar-collapsed {
         transform: translateX(0); /* Mostrar sidebar */
         opacity: 1; /* Hacerlo visible */
-    }
-
-    #main-content {
-        flex-grow: 1; /* En mobile el sidebar es una capa encima y no afecta, entonces en mobile el main-content toma todo el ancho de la pantalla*/
-        position: relative; /* Asegurar que el contenido no se superponga al sidebar */
-        z-index: 1;
     }
 
 }

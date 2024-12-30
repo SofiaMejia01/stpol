@@ -6,25 +6,9 @@ $t_curso_result = $conn->query("SELECT * FROM t_curso WHERE Cod_Est_Curso = 1");
 
 ?>
 
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programacion de Cursos</title>
-
-</head>
-
-<body>
-
-
     <div class="mt-4">
     <h1 class="text-center">Programacion de Cursos</h1>
-        <div class="row mt-5 mb-5">
+        <div class="row mt-5 mb-3">
         
             <!-- Formulario para agregar una nuevo almacen-->
             <div class="col-12 col-xl-4">
@@ -352,7 +336,3 @@ $t_curso_result = $conn->query("SELECT * FROM t_curso WHERE Cod_Est_Curso = 1");
 
         }
     </script>
-
-</body>
-
-</html>
