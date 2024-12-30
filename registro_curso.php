@@ -209,13 +209,14 @@
                                 // Si el ID del diamante está vacío, es una acción de agregar
                                 $('#toastModificarCurso').toast('show');
                                 console.log("curso modificado");
-                                limpiarFormCurso();
+                                
                             } else {
                                 // Si el ID del diamante no está vacío, es una acción de modificar
                                 $('#toastAgregarCurso').toast('show');
                                 console.log("Curso agregado");
-                                limpiarFormCurso();
+                               
                             }
+                            limpiarFormCurso();
 
                         } else {
                             // alert('Error: ' + response.message);
@@ -306,6 +307,8 @@
             $('#nom_curso').val("");
             $('#desc_curso').val("");
           
+            $('#formCursoTitulo').html('>Agregar Nuevo Curso');
+            $('#btn-curso').html('Agregar');
 
         }
     </script>

@@ -245,13 +245,14 @@ $t_curso_result = $conn->query("SELECT * FROM t_curso WHERE Cod_Est_Curso = 1");
                                 // Si el ID del diamante está vacío, es una acción de agregar
                                 $('#toastModificarProgCurso').toast('show');
                                 console.log("Programacion de curso modificado");
-                                limpiarFormProgCurso();
+                                
                             } else {
                                 // Si el ID del diamante no está vacío, es una acción de modificar
                                 $('#toastAgregarProgCurso').toast('show');
                                 console.log("Programacion de curso agregado");
-                                limpiarFormProgCurso();
+                                
                             }
+                            limpiarFormProgCurso();
 
                         } else {
                             // alert('Error: ' + response.message);
@@ -345,7 +346,9 @@ $t_curso_result = $conn->query("SELECT * FROM t_curso WHERE Cod_Est_Curso = 1");
             $('#fecha_inicio_curso').val("");
             $('#fecha_fin_curso').val("");
             $('#promo_curso').val("");
-          
+            // reiniciar título del formulario y texto de botón
+            $('#formProgCursoTitulo').html('Agregar Nueva Programacion de Curso');
+            $('#btn-prog-curso').html('Agregar');
 
         }
     </script>

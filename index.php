@@ -94,7 +94,7 @@ if (!file_exists($filePath)) {
     <div class="container-fluid sidebar-main p-0">
         <!-- Sidebar -->
         <nav class="bg-darkmarmol sidebar border-end" id="sidebar">
-            <div class="position-sticky">
+            <div class="sidebar-container">
                 <div class="position-relative text-center">
                     <div class="me-4 mt-4">
                     <img src="img/logo_STPOL.png" alt="Logo" class="my-4 mx-5" style="height: 80px; object-fit: contain;">
