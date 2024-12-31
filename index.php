@@ -154,7 +154,7 @@ if (!file_exists($filePath)) {
                         <div class="collapse" id="Recursos_Humanos">
                             <ul class="submenu list-unstyled ps-3">
                                 <li><a href="registro_colaborador" class="nav-link text-white"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Registro de Colaboradores</a></li>
-                                <li><a href="reg_pago_colaborador" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Registro de Pagos</a></li>
+                                <li><a href="registro_pago_colaborador" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Registro de Pagos</a></li>
                                
 
                             </ul>
