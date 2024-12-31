@@ -124,6 +124,25 @@ if (!file_exists($filePath)) {
                             </ul>
                         </div>
                     </li>
+
+                    <li class="nav-item mx-3">
+                        <a  href="#Recursos_Humanos" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fa-solid fa-user-tie"></i> &nbsp;
+                            RRHH
+                            <span class="arrow float-end">
+                                <!-- Flecha hacia abajo -->
+                                <i class="fa-solid fa-angle-right"></i>
+                            </span>
+                        </a>
+                        <div class="collapse" id="Recursos_Humanos">
+                            <ul class="submenu list-unstyled ps-3">
+                                <li><a href="registro_colaborador" class="nav-link text-white"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Registro de Colaboradores</a></li>
+                                <li><a href="reg_pago_colaborador" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Registro de Pagos</a></li>
+                               
+
+                            </ul>
+                        </div>
+                    </li>
          
          
                 </ul>
