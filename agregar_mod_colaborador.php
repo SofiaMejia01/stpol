@@ -39,7 +39,7 @@ $fechaPagColab = $_POST['fech_pag_colaborador'];
 if(isset($_FILES['archivo_contrato'])) {
     $archivoContrato = $_FILES['archivo_contrato'];
     $nombre_archivoContrato = uniqid('', true).".".$archivoContrato['name'];
-    $tipo_archivoCContrato = $archivoContrato['type'];
+    $tipo_archivoContrato = $archivoContrato['type'];
     $tamano_archivoContrato = $archivoContrato['size'];
     $ruta_temporalContrato = $archivoContrato['tmp_name'];
     $ruta_destinoContrato = 'contratos/' . basename($nombre_archivoContrato);
@@ -51,18 +51,27 @@ $horarioRefriColab = $_POST['hor_refri_colaborador'];
 
 
 if ($colaborador_id) {
-    
-    // Consultar el nombre del archivo actual asociado al registro
-    $query = "SELECT FOT_EVE_NAME FROM t_gasto_interno WHERE ID_Gasto = ?";
-    $stmtSelect = $conn->prepare($query);
-    $stmtSelect->bind_param("i", $gasto_id);
-    $stmtSelect->execute();
-    $stmtSelect->bind_result($currentFileName);
-    $stmtSelect->fetch();
-    $stmtSelect->close();
-    
 
-    if ($archivo && $tamano_archivo > 0 && move_uploaded_file($ruta_temporal, $ruta_destino)) {
+    $sqlUpdate = "UPDATE t_gasto_interno SET 
+                    Nom_Gasto = ?, 
+                    Monto_Gasto = ?, 
+                    Fech_Pag_Gasto = ?";
+
+    $tipoDatos = "sdsssssi";
+    $parametros = [ $nombreGasto, $montoGasto, $fechaPagoGasto ];
+
+    // 1er archivo
+    if ($archivoCV && $tamano_archivoCV > 0 && move_uploaded_file($ruta_temporalCV, $ruta_destinoCV)) {
+
+        // Consultar el nombre del archivo actual DEL CV asociado al registro
+        $query = "SELECT FOT_CV_NAME FROM t_colaborador WHERE ID_Colab = ?";
+        $stmtSelect = $conn->prepare($query);
+        $stmtSelect->bind_param("i", $colaborador_id);
+        $stmtSelect->execute();
+        $stmtSelect->bind_result($currentFileName);
+        $stmtSelect->fetch();
+        $stmtSelect->close();
+
         // Verificar si existe un archivo anterior y eliminarlo
         if ($currentFileName != '') {
             $filePath = 'servicios/' . $currentFileName;
@@ -72,87 +81,162 @@ if ($colaborador_id) {
         }
 
         // Preparar la consulta SQL para insertar datos
-        $sql = "UPDATE t_gasto_interno SET 
-                        Nom_Gasto = ?, 
-                        Monto_Gasto = ?, 
-                        Fech_Pag_Gasto = ?, 
-                        FOT_EVE_NAME = ?, 
-                        FOT_EVE_TYPE = ?, 
-                        FOT_EVE_SIZE = ?, 
-                        FOT_EVE_TMPNAME = ? 
-                        WHERE ID_Gasto = ?";
-        
-        // Preparar la declaración
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdsssssi", $nombreGasto, $montoGasto, $fechaPagoGasto, 
-            $nombre_archivo, $tipo_archivo, $tamano_archivo, $ruta_destino, $gasto_id);
-       
-    } else {
-        $sql = "UPDATE t_gasto_interno SET 
-                    Nom_Gasto = ?, 
-                    Monto_Gasto = ?, 
-                    Fech_Pag_Gasto = ? 
-                    WHERE ID_Gasto = ?";
-        // Si no se sube un archivo, solo actualizamos los campos sin los relacionados al archivo
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdsi", $nombreGasto, $montoGasto, $fechaPagoGasto,  $gasto_id);
+        $sqlUpdate .= ",
+            FOT_CV_NAME = ?, 
+            FOT_CV_TYPE = ?, 
+            FOT_CV_SIZE = ?, 
+            FOT_CV_TMPNAME = ?";
+
+        $tipoDatos .= "ssss";
+
+        $parametros = array_merge($parametros, [$nombre_archivo, $tipo_archivo, $tamano_archivo, $ruta_destino]);
+
     }
 
+    // 2do archivo
+    if ($archivoContrato && $tamano_archivoContrato > 0 && move_uploaded_file($ruta_temporalContrato, $ruta_destinoContrato)) {
+
+        // Consultar el nombre del archivo actual DEL CV asociado al registro
+        $query = "SELECT FOT_REG_CONTRATO_NAME FROM t_colaborador WHERE ID_Colab = ?";
+        $stmtSelect = $conn->prepare($query);
+        $stmtSelect->bind_param("i", $colaborador_id);
+        $stmtSelect->execute();
+        $stmtSelect->bind_result($currentFileName2);
+        $stmtSelect->fetch();
+        $stmtSelect->close();
+
+        // Verificar si existe un archivo anterior y eliminarlo
+        if ($currentFileName2 != '') {
+            $filePath2 = 'contratos/' . $currentFileName2;
+            if (file_exists($filePath2)) {
+                unlink($filePath2); // Eliminar archivo anterior
+            }
+        }
+
+        // Preparar la consulta SQL para insertar datos
+        $sqlUpdate .= ",
+            FOT_REG_CONTRATO_NAME = ?, 
+            FOT_REG_CONTRATO_TYPE = ?, 
+            FOT_REG_CONTRATO_SIZE = ?, 
+            FOT_REG_CONTRATO_TMPNAME = ?";
+
+        $tipoDatos .= "ssss";
+
+        $parametros = array_merge($parametros, [$nombre_archivo, $tipo_archivo, $tamano_archivo, $ruta_destino]);
+
+    }
+
+    $sqlUpdate .= " WHERE ID_Gasto = ?";
+    $tipoDatos .= "i";
+    $parametros[] = $gasto_id;
+
+    // Preparar la declaración
+    $stmt = $conn->prepare($sqlUpdate);
+    $stmt->bind_param($tipoDatos, ...$parametros);
+    
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success']);
     } else {
         echo json_encode(['status' => 'error', 'message' => $stmt->error]);
     } 
     
-    $stmt->close();
+    $stmt->close(); 
    
 }
 else {
 
-    if($archivo && $tamano_archivo > 0 && move_uploaded_file($ruta_temporal, $ruta_destino)){
-        $insert_query = "INSERT INTO t_gasto_interno 
-            (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto, FOT_EVE_NAME, FOT_EVE_TYPE, FOT_EVE_SIZE, FOT_EVE_TMPNAME) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($insert_query);
+    $sqlInsert = "INSERT INTO t_colaborador ";
+            
 
-        if ($stmt) {
-            // Bind parameters
-            $stmt->bind_param("sdsssss", $nombreGasto, $montoGasto, $fechaPagoGasto, 
-                $nombre_archivo, $tipo_archivo, $tamano_archivo,  $ruta_destino);
-            $stmt->execute();
+    $campos = " (Nombre_Colab, Apellido_Colab, Numero_Doc_Colab, Genero_Colab, Fecha_Nac_Colab, Edad_Colab, Direccion_Colab, Telefono_Colab, Correo_Colab, ID_Puesto, Modalidad_Colab, Sueldo_Colab, Fecha_Pago_Colab, Horario_Trabajo_Colab, Horario_Refrigerio_Colab";
+    $interrogaciones = " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
 
-            if ($stmt->affected_rows > 0) {
-                echo json_encode(['status' => 'success', 'message' => ' Servicio agregado exitosamente.']);
-            } else {
-                echo json_encode(['error' => 'No se pudo crear el registro']);
+    $tipoDatos = "sssssisssssdsss";
+    $parametros = [ $nombreColab, $apellidoColab, $numDocColab, $generoColab, $fechaNacColab, $edadColab, $direccionColab,$telefonoColab, 
+    $correoColab, $puestoColab, $modalidadColab, $sueldoColab, $fechaPagColab, $horarioTrabColab, $horarioRefriColab ];
+
+    // 1er archivo
+    if ($archivoCV && $tamano_archivoCV > 0 && move_uploaded_file($ruta_temporalCV, $ruta_destinoCV)) {
+
+        // Consultar el nombre del archivo actual DEL CV asociado al registro
+        $query = "SELECT FOT_CV_NAME FROM t_colaborador WHERE ID_Colab = ?";
+        $stmtSelect = $conn->prepare($query);
+        $stmtSelect->bind_param("i", $colaborador_id);
+        $stmtSelect->execute();
+        $stmtSelect->bind_result($currentFileName);
+        $stmtSelect->fetch();
+        $stmtSelect->close();
+
+        // Verificar si existe un archivo anterior y eliminarlo
+        if ($currentFileName != '') {
+            $filePath = 'curriculumVitae/' . $currentFileName;
+            if (file_exists($filePath)) {
+                unlink($filePath); // Eliminar archivo anterior
             }
+        }
 
-            $stmt->close();
-        } else {
-            echo json_encode(['error' => 'Error en la preparación del SQL (INSERT 1)']);
-        }  
-    }else{
-        $insert_query = "INSERT INTO t_gasto_interno 
-        (Nom_Gasto, Monto_Gasto, Fech_Pag_Gasto) 
-        VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($insert_query);
+        $campos .= ",FOT_CV_NAME, FOT_CV_TYPE, FOT_CV_SIZE, FOT_CV_TMPNAME";
+        $interrogaciones .= ", ?, ?, ?, ?";
 
-        if ($stmt) {
-            // Bind parameters
-            $stmt->bind_param("sds", $nombreGasto, $montoGasto, $fechaPagoGasto);
-            $stmt->execute();
+        $tipoDatos .= "ssss";
 
-            if ($stmt->affected_rows > 0) {
-                echo json_encode(['status' => 'success', 'message' => ' Servicio agregado exitosamente.']);
-            } else {
-                echo json_encode(['error' => 'No se pudo crear el registro']);
-            }
+        $parametros = array_merge($parametros, [$nombre_archivoCV, $tipo_archivoCV, $tamano_archivoCV, $ruta_destinoCV]);
 
-            $stmt->close();
-        } else {
-            echo json_encode(['error' => 'Error en la preparación del SQL (INSERT 2)']);
-        } 
     }
+
+    // 2do archivo
+    if ($archivoContrato && $tamano_archivoContrato > 0 && move_uploaded_file($ruta_temporalContrato, $ruta_destinoContrato)) {
+
+        // Consultar el nombre del archivo actual DEL CV asociado al registro
+        $query = "SELECT FOT_REG_CONTRATO_NAME FROM t_colaborador WHERE ID_Colab = ?";
+        $stmtSelect = $conn->prepare($query);
+        $stmtSelect->bind_param("i", $colaborador_id);
+        $stmtSelect->execute();
+        $stmtSelect->bind_result($currentFileName2);
+        $stmtSelect->fetch();
+        $stmtSelect->close();
+
+        // Verificar si existe un archivo anterior y eliminarlo
+        if ($currentFileName2 != '') {
+            $filePath2 = 'contratos/' . $currentFileName2;
+            if (file_exists($filePath2)) {
+                unlink($filePath2); // Eliminar archivo anterior
+            }
+        }
+
+        $campos .= ",FOT_REG_CONTRATO_NAME, FOT_REG_CONTRATO_TYPE, FOT_REG_CONTRATO_SIZE, FOT_REG_CONTRATO_TMPNAME";
+        $interrogaciones .= ", ?, ?, ?, ?";
+
+        $tipoDatos .= "ssss";
+
+        $parametros = array_merge($parametros, [$nombre_archivoContrato, $tipo_archivoContrato, $tamano_archivoContrato, $ruta_destinoContrato]);
+
+    }
+
+    $campos .= ") ";
+    $interrogaciones .= ") ";
+
+    $sqlInsert = $sqlInsert . $campos . $interrogaciones;
+
+    //echo "<pre>$sqlInsert</pre>"; 
+
+    // Preparar la declaración
+    $stmt = $conn->prepare($sqlInsert);
+
+    if (!$stmt) {
+        die("Error en prepare: " . $mysqli->error);
+    }
+
+    $stmt->bind_param($tipoDatos, ...$parametros);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+    } 
+    
+    $stmt->close(); 
+
 
 }
   
