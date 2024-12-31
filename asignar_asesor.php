@@ -10,7 +10,6 @@
 
 <body>
 
-
     <div class="mt-4">
     <h1 class="text-center">Asignacion de Asesores</h1>
     <form id="asignarForm" class="p-3 border rounded">
@@ -63,6 +62,7 @@
     </form>
 
             <!-------------------------------------------------------------------------------- TOASTS ---------------------------------------------------------------------------------->
+             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
                 <!-- Toast para éxito al agregar un producto -->
                 <div id="toastAgregarAsignacion class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
@@ -153,7 +153,7 @@
                         data: null,
                         render: function(data, type, row) {
                             return `    
-                                <input type='checkbox' name='asesores[]' value='${row.ID_Colab}'>
+                                <input type='radio' name='asesores[]' value='${row.ID_Colab}'>
                              `;
                         }
                     }
