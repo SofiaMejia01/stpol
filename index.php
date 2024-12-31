@@ -103,9 +103,7 @@ if (!file_exists($filePath)) {
                </div>
              
                 <hr style="background-color: #aa6ecf; border-color: #aa6ecf; height: 2px;">
-                <ul class="nav flex-column py-1">
-
-        
+                <ul class="nav flex-column py-1">        
                     <li class="nav-item mx-3">
                         <a  href="#administracion" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
                         <i class="fa-solid fa-user-tie"></i> &nbsp;
@@ -121,6 +119,25 @@ if (!file_exists($filePath)) {
                                 <li><a href="registro_curso" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Registro de Cursos</a></li>
                                 <li><a href="programacion_curso" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Programación de Cursos</a></li>
 
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item mx-3">
+                        <a  href="#CRM" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fa-solid fa-user-tie"></i> &nbsp;
+                            CRM
+                            <span class="arrow float-end">
+                                <!-- Flecha hacia abajo -->
+                                <i class="fa-solid fa-angle-right"></i>
+                            </span>
+                        </a>
+                        <div class="collapse" id="CRM">
+                            <ul class="submenu list-unstyled ps-3">
+                                <li><a href="registro_interesado" class="nav-link text-white"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Registro de Interesados</a></li>
+                                <li><a href="importar_data" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Importacion de Data</a></li>
+                                <li><a href="asignar_asesor" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Asignacion de Asesores</a></li>
+                                <li><a href="wrkspc_asesores" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Workspace de asesores</a></li>
                             </ul>
                         </div>
                     </li>
