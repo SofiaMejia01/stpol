@@ -134,7 +134,6 @@ if (!file_exists($filePath)) {
                         </a>
                         <div class="collapse" id="CRM">
                             <ul class="submenu list-unstyled ps-3">
-                                <li><a href="registro_interesado" class="nav-link text-white"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Registro de Interesados</a></li>
                                 <li><a href="importar_data" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Importacion de Data</a></li>
                                 <li><a href="asignar_asesor" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Asignacion de Asesores</a></li>
                                 <li><a href="wrkspc_asesores" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Workspace de asesores</a></li>
@@ -157,6 +156,22 @@ if (!file_exists($filePath)) {
                                 <li><a href="registro_pago_colaborador" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp;Registro de Pagos</a></li>
                                
 
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item mx-3">
+                        <a  href="#Marketing" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fa-solid fa-user-tie"></i> &nbsp;
+                            Marketing
+                            <span class="arrow float-end">
+                                <!-- Flecha hacia abajo -->
+                                <i class="fa-solid fa-angle-right"></i>
+                            </span>
+                        </a>
+                        <div class="collapse" id="Marketing">
+                            <ul class="submenu list-unstyled ps-3">
+                                <li><a href="registro_interesado" class="nav-link text-white"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Registro de Interesados</a></li>
                             </ul>
                         </div>
                     </li>

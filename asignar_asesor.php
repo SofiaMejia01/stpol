@@ -62,14 +62,14 @@
     </form>
 
             <!-------------------------------------------------------------------------------- TOASTS ---------------------------------------------------------------------------------->
-             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
                 <!-- Toast para éxito al agregar un producto -->
                 <div id="toastAgregarAsignacion class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body  d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
                             <i class="bi bi-check-circle-fill me-2"></i>
-                            Asesor asignado correctamente.
+                            Asesor asignados correctamente.
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
@@ -153,7 +153,7 @@
                         data: null,
                         render: function(data, type, row) {
                             return `    
-                                <input type='radio' name='asesores[]' value='${row.ID_Colab}'>
+                                <input type='radio' name='asesor' value='${row.ID_Colab}'>
                              `;
                         }
                     }
@@ -175,18 +175,19 @@
                     data: formData,
                     dataType: 'json', // Esperamos una respuesta JSON
                     success: function(response) {
-                        tablaInventario.ajax.reload();
+                        tablaInteresadosSA.ajax.reload();
+                        tablaAsesores.ajax.reload();
                         if (response.status === 'success') {
                             $('#toastAgregarAsignacion').toast('show');
                             console.log("Asesor asignado");                                
-                            limpiarFormCurso();
+
 
                         } else {
                             // alert('Error: ' + response.message);
                             $('#toastErrorModify').toast('show');
                             console.log("producto error  error")
                         }
-                        limpiarFormCurso();
+
                     },
                     error: function(xhr, status, error) {
                         // alert('Ocurrió un error al procesar la solicitud (modificar_diamante.php).');
@@ -198,15 +199,7 @@
 
         });
 
-        function limpiarFormCurso() {
-            $('#id_curso').val("");
-            $('#nom_curso').val("");
-            $('#desc_curso').val("");
-          
-            $('#formCursoTitulo').html('>Agregar Nuevo Curso');
-            $('#btn-curso').html('Agregar');
 
-        }
     </script>
 
 </body>
