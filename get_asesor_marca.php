@@ -10,9 +10,12 @@ if (!isset($_POST['id'])) {
 $id = $_POST['id'];
 
 //Consulta SQL que selecciona todos los datos (pp.*) del diamante con un ID_PP específico. También trae el Nombre_Estado asociado desde la tabla estado_pp mediante un JOIN.
-$query = "SELECT t_producto_servicio_marca.*, t_marca.Nombre_Marca FROM t_producto_servicio_marca 
-    JOIN t_marca ON t_producto_servicio_marca.ID_Marca = t_marca.ID_Marca 
-    WHERE t_producto_servicio_marca.ID_Prod_Serv_Marca = ?";
+// $query = "SELECT t_producto_servicio_marca.*, t_marca.Nombre_Marca FROM t_producto_servicio_marca 
+//     JOIN t_marca ON t_producto_servicio_marca.ID_Marca = t_marca.ID_Marca 
+//     WHERE t_producto_servicio_marca.ID_Prod_Serv_Marca = ?";
+
+$query = "SELECT ID_Marca, ID_Colab FROM t_marca_colaborador as mc 
+    WHERE mc.ID_Marca_Colaborador = ?";
 
 //Crea una consulta preparada. Esto mejora la seguridad al prevenir ataques de inyección SQL al separar los datos dinámicos (proporcionados por el usuario) de la lógica de la consulta.
 $stmt = $conn->prepare($query);
@@ -28,7 +31,7 @@ $result = $stmt->get_result();
 
 //Si no se encuentran registros para ese ID:Detiene la ejecución y muestra un mensaje de error.
 if ($result->num_rows == 0) {
-    echo "Error: Producto/Servicio por marca no encontrado.";
+    echo "Error: Asesor por marca no encontrado.";
     exit();
 }
 

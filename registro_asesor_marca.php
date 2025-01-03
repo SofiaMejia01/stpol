@@ -268,8 +268,6 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
             $("#formAsesorMarcaTitulo").html("Modificar Asesores por Marca");
             $("#btn-asesor-marca").html("Modificar");
 
-            cambiarTipoSelect();
-
             const id = $(this).data('id');
             // console.log("id 11 =>", id)
             $.ajax({
@@ -285,9 +283,8 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
                     $('#id_asesorMarca').val(data.ID_Marca_Colaborador);
                     $('#id_marca').val(data.ID_Marca);
                     $('#id_asesores').val(data.ID_Colab);
-                  
 
-
+                    cambiarTipoSelect();
 
                 },
                 error: function(xhr, status, error) {
