@@ -175,7 +175,24 @@ if (!file_exists($filePath)) {
                             </ul>
                         </div>
                     </li>
-         
+
+                    <li class="nav-item mx-3">
+                        <a  href="#Negocio" class="nav-link text-white" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fa-solid fa-user-tie"></i> &nbsp;
+                            Negocio
+                            <span class="arrow float-end">
+                                <!-- Flecha hacia abajo -->
+                                <i class="fa-solid fa-angle-right"></i>
+                            </span>
+                        </a>
+                        <div class="collapse" id="Negocio">
+                            <ul class="submenu list-unstyled ps-3">
+                                <li><a href="registro_marca" class="nav-link text-white"><i class="fa-solid fa-book"></i> &nbsp; Registro de Marcas</a></li>
+                                <li><a href="registro_prod_marca" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Registro de servicios/productos por marca</a></li>
+                                <li><a href="registro_asesor_marca" class="nav-link text-white"><i class="fa-solid fa-calendar-days"></i>&nbsp;Registro de asesores por marca</a></li>
+                            </ul>
+                        </div>
+                    </li>
          
                 </ul>
            

@@ -308,8 +308,9 @@ $t_puesto_result = $conn->query("SELECT ID_Puesto, Nombre_Puesto FROM t_puesto")
                         data: 'Fecha_Pago_Colab'
                     },
                     {
-                        data: 'FOT_RG_CONTRATO_TMPNAME',
+                        data: 'FOT_REG_CONTRATO_TMPNAME',
                         render: function(data, type, row) {
+                            
                             if(data) {
                                 return `<a href='${data}' target='_blank'>Ver Contrato</a>`;
                             }
@@ -428,7 +429,7 @@ $t_puesto_result = $conn->query("SELECT ID_Puesto, Nombre_Puesto FROM t_puesto")
                         $('#direc_colaborador').val(data.Direccion_Colab);
                         $('#telef_colaborador').val(data.Telefono_Colab);
                         $('#correo_colaborador').val(data.Correo_Colab);
-                        $('#correo_colaborador').val(data.Correo_Colab);
+                        
 
                         if(data.FOT_CV_NAME){
                             const htmlArchivo = `
@@ -454,7 +455,7 @@ $t_puesto_result = $conn->query("SELECT ID_Puesto, Nombre_Puesto FROM t_puesto")
                                 </small>`;
                             $("#mostrarNombreArchivoContrato").html(htmlArchivo2);
                         }else{
-                            $("#mostrarNombreArchivoContrato").html()
+                            $("#mostrarNombreArchivoContrato").html();
                         }
 
                         $('#hor_trab_colaborador').val(data.Horario_Trabajo_Colab);
@@ -514,12 +515,12 @@ $t_puesto_result = $conn->query("SELECT ID_Puesto, Nombre_Puesto FROM t_puesto")
             $('#telef_colaborador').val("");
             $('#correo_colaborador').val("");
             $('#correo_colaborador').val("");
-            $('#mostrarNombreArchivoCV').html();
+            $('#mostrarNombreArchivoCV').html("");
             $('#puesto_colaborador').val("");
             $('#modalidad_colaborador').val("");
             $('#sueldo_colaborador').val("");
             $('#fech_pag_colaborador').val("");
-            $('#mostrarNombreArchivoContrato').html();
+            $('#mostrarNombreArchivoContrato').html("");
             $('#hor_trab_colaborador').val("");
             $('#hor_refri_colaborador').val("");
 

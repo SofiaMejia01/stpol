@@ -1,52 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+ 
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Gasto Interno</title>
+// Obtiene todos los registros de la tabla t_curso, que serán usados para generar un menú desplegable en el formulario. 
+$t_marca_result = $conn->query("SELECT * FROM t_marca WHERE COD_EST_OBJ = 1");
 
-</head>
-
-<body>
-
+?>
 
     <div class="mt-4">
-        <h1 class="text-center">Registro de Gasto Interno</h1>
-        <div class="row mt-5 mb-5">
-
+    <h1 class="text-center">Productos o Servicios por Marca</h1>
+        <div class="row mt-5 mb-3">
+        
             <!-- Formulario para agregar una nuevo almacen-->
             <div class="col-12 col-xl-4">
                 <div class="container mt-3">
-                    <h5 id=formGastoTitulo>Agregar Nuevo Gasto Interno</h5>
-                    <form id="formAgregarModificarGasto" class="p-3 border rounded" enctype="multipart/form-data">
-                        <input type="hidden" id="id_gasto" name="id_gasto">
+                    <h5 id=formProdServMarcaTitulo>Agregar Nuevo Producto o Servicio por Marca</h5>
+                    <form id="formAgregarModificarProdServMarca" class="p-3 border rounded">
+                        <input type="hidden" id="id_prodServMarca" name="id_prodServMarca">
+                           
+                        <div class="form-group mb-3">
+                            <label for="id_marca" class="form-label">Elejir una Marca:</label>
+                            <select class="form-select" id="id_marca" name="id_marca" required>
+                                <option value="" disabled selected>Seleccione</option>
+                                <?php while ($row = $t_marca_result->fetch_assoc()): ?>
+                                    <option value="<?php echo $row['ID_Marca']; ?>"><?php echo $row['Nombre_Marca']; ?></option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
 
                         <div class="form-group mb-3">
-                            <label for="nom_gasto" class="form-label">Nombre del Servicio:</label>
-                            <input type="text" id="nom_gasto" name="nom_gasto" class="form-control" required>
+                            <label for="nombre_prod_serv_marca" class="form-label">Nombre del producto o servicio:</label>
+                            <input type="text" name="nombre_prod_serv_marca"  id="nombre_prod_serv_marca" class="form-control"  required>
                         </div>
+
                         <div class="form-group mb-3">
-                            <label for="monto_gasto" class="form-label">Monto:</label>
-                            <input type="number" step="0.01" id="monto_gasto" name="monto_gasto" class="form-control" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="fech_pag_gasto" class="form-label">Fecha de Pago:</label>
-                            <input type="date" name="fech_pag_gasto" id="fech_pag_gasto" class="form-control" required>
+                            <label for="desc_prod_serv_marca">Descripción:</label>
+                            <textarea class="form-control" id="desc_prod_serv_marca" name="desc_prod_serv_marca" required></textarea>
                         </div>
 
-                        <div  class="form-group mb-3">
-                            <label for="archivo" class="form-label ">Adjuntar Comprobante de Pago:</label>
-                            <input type="file" id="archivo" name="archivo"  class="form-control" >
-
-                            <div id="mostrarNombreArchivo">
-                            </div>
-                        </div>
-
-
-
-
-                        <button id="btn-gasto" type="submit" class="btn btn-primary">Agregar</button>
+                        <button id="btn-prod-serv-marca" type="submit" class="btn btn-primary">Agregar</button>
                     </form>
                 </div>
             </div>
@@ -54,17 +45,16 @@
             <!-- DataTable para listar los almacenes -->
             <div class="col-12 col-xl-8">
                 <div class="table-section bg-white p-3">
-                    <h5>Lista de Gastos Internos</h5>
+                    <h5>Lista de Programacion de cursos</h5>
                     <br>
                     <div class="table-responsive">
-                        <table id="gastoTable" class="display table table-striped w-100">
+                        <table id="servProdMarcaTable" class="display table table-striped w-100">
                             <thead>
                                 <tr>
-                                    <th>ID Servicio</th>
-                                    <th>Nombre Servicio</th>
-                                    <th>Monto</th>
-                                    <th>Fecha de Pago</th>
-                                    <th>Archivo</th>
+                                    <th>ID</th>
+                                    <th>Nombre Marca</th>
+                                    <th>Nombre Producto o Servicio</th>    
+                                    <th>Descripcion</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -89,24 +79,24 @@
             <!-------------------------------------------------------------------------------- TOASTS ---------------------------------------------------------------------------------->
             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
                 <!-- Toast para éxito al modificar un producto -->
-                <div id="toastModificarGasto" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div id="toastModificarProdServMarca" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
                             <i class="bi bi-pencil-fill me-2"></i>
-                            Servicio modificado correctamente.
+                            Producto/Servicio modificado correctamente.
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
 
                 <!-- Toast para éxito al agregar un producto -->
-                <div id="toastAgregarGasto" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div id="toastAgregarProdServMarca" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body  d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
                             <i class="bi bi-check-circle-fill me-2"></i>
-                            Servicio agregado correctamente.
+                            Producto/Servicio agregado correctamente.
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
@@ -114,12 +104,12 @@
 
 
                 <!-- Toast para eliminar un producto -->
-                <div id="toastEliminarGasto" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div id="toastEliminarProdServMarca" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body  d-flex align-items-center">
                             <!-- Ícono al costado del texto -->
                             <i class="bi bi-check-circle-fill me-2"></i>
-                            Registro eliminado correctamente.
+                            Producto/Servicio eliminado correctamente.
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
@@ -142,9 +132,10 @@
 
 
 
+
     <script>
         function confirmDelete() {
-            return confirm("¿Estás seguro de que deseas eliminar este Almacen?");
+            return confirm("¿Estás seguro de que deseas eliminar este Producto/Servicio?");
         }
 
         var tablaInventario;
@@ -156,46 +147,37 @@
             // new DataTable("#prodTable");
 
             // Inicializar DataTables
-            tablaInventario = $('#gastoTable').DataTable({
+            tablaInventario = $('#servProdMarcaTable').DataTable({
                 // scrollX: true, // Permitir scroll horizontal
 
 
                 ajax: {
-                    url: 'get_gastos.php', // El archivo que obtiene los registros
+                    url: 'get_prod_serv_marcas.php', // El archivo que obtiene los registros
                     dataSrc: '' // Los datos provienen directamente del JSON (sin necesidad de envolver en otra propiedad)
                 },
                 columns: [{
-                        data: 'ID_Gasto'
-                    },
-                    {
-                        data: 'Nom_Gasto'
-                    },
-                    {
-                        data: 'Monto_Gasto'
-                    },
-                    {
-                        data: 'Fech_Pag_Gasto'
-                    },
-
-                    {
-                        data: 'FOT_EVE_TMPNAME',
+                        data: 'ID_Prod_Serv_Marca',
                         render: function(data, type, row) {
-                            if(data) {
-                                return `<a href='${data}' target='_blank'>Ver Archivo</a>`;
-                            }
-
-                            return '<span class="badge rounded-pill text-bg-info">Archivo no<br>cargado</span>';
-                            
+                            return `Prog-${data}`; // Formato con prefijo PROD-
                         }
                     },
-
+                    {
+                        data: 'Nombre_Marca'
+                    },
+                    {
+                        data: 'Nombre_Prod_Serv_Marca'
+                    },
+                    {
+                        data: 'Descripcion_Prod_Serv_Marca'
+                    },
+                 
                     {
                         data: null,
                         render: function(data, type, row) {
                             return `
     
-                                <button class="btn btn-secondary tablaModificar" data-id="${row.ID_Gasto}">Modificar</button>
-                                <button class="btn btn-danger tablaEliminar" data-id="${row.ID_Gasto}">Eliminar</button>
+                                <button class="btn btn-secondary tablaModificar" data-id="${row.ID_Prod_Serv_Marca}">Modificar</button>
+                                <button class="btn btn-danger tablaEliminar" data-id="${row.ID_Prod_Serv_Marca}">Eliminar</button>
                                
 
         
@@ -206,50 +188,53 @@
             });
 
             //aca se agrega o modifica un almacen
-            $('#formAgregarModificarGasto').on('submit', function(e) {
+            $('#formAgregarModificarProdServMarca').on('submit', function(e) {
 
                 // console.log("entrando a submit");
 
                 e.preventDefault(); // Evita el envío tradicional del formulario
 
-                var form = document.querySelector('#formAgregarModificarGasto');
                 // Serializa los datos del formulario
-                var formData = new FormData(form);
+                var formData = $(this).serialize();
 
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ': ' + pair[1]);
-                }
+
+                // Validación manual opcional
+                // if (!formData.includes('tipo_certificado') || !formData.includes('numero_certificado')) {
+                //     alert('Todos los campos obligatorios deben completarse.');
+                //     return;
+                // }
+
+                console.log('Datos enviados:', formData); // Verifica qué datos se están enviando
 
                 // Realiza la solicitud AJAX
                 $.ajax({
-                    url: 'agregar_mod_gasto.php', // Dirección del servidor
+                    url: 'agregar_mod_prod_serv_marca.php', // Dirección del servidor
                     method: 'POST',
                     data: formData,
                     dataType: 'json', // Esperamos una respuesta JSON
-                    processData: false, // IMPORTANTE: Evita que jQuery procese los datos
-                    contentType: false, // IMPORTANTE: Evita que jQuery establezca un encabezado incorrecto
-
                     success: function(response) {
                         tablaInventario.ajax.reload();
                         if (response.status === 'success') {
                             // alert(response.message);
-                            if ($('#id_gasto').val()) {
+                            if ($('#id_prodServMarca').val()) {
                                 // Si el ID del diamante está vacío, es una acción de agregar
-                                $('#toastModificarGasto').toast('show');
-                                console.log("Gasto modificado");
+                                $('#toastModificarProdServMarca').toast('show');
+                                console.log("Producto/Servicio modificado");
+                                
                             } else {
                                 // Si el ID del diamante no está vacío, es una acción de modificar
-                                $('#toastAgregarGasto').toast('show');
-                                console.log("Gasto agregado");
+                                $('#toastAgregarProdServMarca').toast('show');
+                                console.log("Producto/Servicio agregado");
+                                
                             }
-                            limpiarFormGasto();
+                            limpiarFormProdServMarca();
 
                         } else {
                             // alert('Error: ' + response.message);
                             $('#toastErrorModify').toast('show');
                             console.log("producto error  error")
                         }
-                        limpiarFormGasto();
+                        limpiarFormProdServMarca();
                     },
                     error: function(xhr, status, error) {
                         // alert('Ocurrió un error al procesar la solicitud (modificar_diamante.php).');
@@ -262,16 +247,16 @@
 
 
             //------------------- BOTON O ENLACE MODIFICAR, AL HACERLE CLICK-------------------------------------------
-            $('#gastoTable tbody').on('click', '.tablaModificar', function() {
+            $('#servProdMarcaTable tbody').on('click', '.tablaModificar', function() {
                 // console.log("hola sofia");
                 // e.preventDefault();
-                $("#formGastoTitulo").html("Modificar Gasto");
-                $("#btn-gasto").html("Modificar Gasto");
+                $("#formProdServMarcaTitulo").html("Modificar Producto o Servicio por Marca");
+                $("#btn-prod-serv-marca").html("Modificar");
 
                 const id = $(this).data('id');
                 // console.log("id 11 =>", id)
                 $.ajax({
-                    url: 'get_gasto.php',
+                    url: 'get_prod_serv_marca.php',
                     method: 'POST',
                     data: {
                         id
@@ -280,24 +265,12 @@
                     success: function(data) {
 
                         console.log("data22 =>", data)
-                        $('#id_gasto').val(data.ID_Gasto);
-                        $('#nom_gasto').val(data.Nom_Gasto);
-                        $('#monto_gasto').val(data.Monto_Gasto);
-                        $('#fech_pag_gasto').val(data.Fech_Pag_Gasto);
-                       
+                        $('#id_prodServMarca').val(data.ID_Prod_Serv_Marca);
+                        $('#id_marca').val(data.ID_Marca);
+                        $('#nombre_prod_serv_marca').val(data.Nombre_Prod_Serv_Marca);
+                        $('#desc_prod_serv_marca').val(data.Descripcion_Prod_Serv_Marca);
 
-                        if(data.FOT_EVE_NAME){
-                            const htmlArchivo = `
-                                <small>
-                                    <br>Archivo actual:
-                                    ${data.FOT_EVE_NAME}
-                                </small>`;
-                            $("#mostrarNombreArchivo").html(htmlArchivo);
-                        }else{
-                            $("#mostrarNombreArchivo").html()
-                        }
 
-                        
 
                     },
                     error: function(xhr, status, error) {
@@ -310,24 +283,24 @@
 
             //------------------- BOTON O ENLACE ELIMINAR, AL HACERLE CLICK-------------------------------------------
 
-            $('#gastoTable tbody').on('click', '.tablaEliminar', function() {
+            $('#servProdMarcaTable tbody').on('click', '.tablaEliminar', function() {
                 const id = $(this).data('id');
 
                 // Aquí puedes realizar una solicitud AJAX para eliminar el registro
                 $.ajax({
-                    url: 'delete_gasto.php', // Ruta del archivo que manejará la eliminación
+                    url: 'delete_prod_serv_marca.php', // Ruta del archivo que manejará la eliminación
                     type: 'POST',
                     data: {
                         id
                     },
                     success: function(response) {
-                        $('#toastEliminarGasto').toast('show');
+                        $('#toastEliminarProdServMarca').toast('show');
                         // alert('Registro eliminado exitosamente');
                         tablaInventario.ajax.reload(); // Recargar la tabla para reflejar los cambios
-                        limpiarFormGasto();
+                        limpiarFormProdServMarca();
                     },
                     error: function(xhr, status, error) {
-                        alert('Error al eliminar el registro: ' + error);
+                        alert('Error al eliminar el producto o servicio por marca: ' + error);
                     }
                 });
 
@@ -341,20 +314,15 @@
 
         });
 
-        function limpiarFormGasto() {
-            $('#id_gasto').val("");
-            $('#nom_gasto').val("");
-            $('#monto_gasto').val("");
-            $('#fech_pag_gasto').val("");
-            $('#archivo').val("");
-            $('#mostrarNombreArchivo').html("");
-
+        function limpiarFormProdServMarca() {
+            $('#id_marca').val("");
+           
+            $('#nombre_prod_serv_marca').val("");
+            $('#desc_prod_serv_marca').val("");
+         
             // reiniciar título del formulario y texto de botón
-            $('#formGastoTitulo').html('Agregar Nuevo Gasto Interno');
-            $('#btn-gasto').html('Agregar');
+            $('#formProdServMarcaTitulo').html('Agregar Nuevo Producto o Servicio por Marca');
+            $('#btn-prod-serv-marca').html('Agregar');
+
         }
     </script>
-
-</body>
-
-</html>

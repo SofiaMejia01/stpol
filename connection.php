@@ -3,7 +3,7 @@
 
 $servername = "localhost"; // Usually localhost
 $username = "root"; // Default username for XAMPP
-$password = ""; // Default password is empty for XAMPP
+$password = "mysql"; // Default password is empty for XAMPP
 $dbname = "stpol"; // The name of your database
 
 

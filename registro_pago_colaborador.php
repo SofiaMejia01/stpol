@@ -236,14 +236,14 @@ $t_pago_result = $conn->query("SELECT ID_Colab, Nombre_Colab FROM t_colaborador"
                                 $('#toastAgregarPago').toast('show');
                                 console.log("Pago agregado");
                             }
-                            limpiarFormGasto();
+                            limpiarFormPago();
 
                         } else {
                             // alert('Error: ' + response.message);
                             $('#toastErrorModify').toast('show');
                             console.log("producto error  error")
                         }
-                        limpiarFormGasto();
+                        limpiarFormPago();
                     },
                     error: function(xhr, status, error) {
                         // alert('Ocurrió un error al procesar la solicitud (modificar_diamante.php).');
@@ -275,7 +275,7 @@ $t_pago_result = $conn->query("SELECT ID_Colab, Nombre_Colab FROM t_colaborador"
 
                         console.log("data22 =>", data)
                         $('#id_pago').val(data.ID_Pago);
-                        $('#id_cola_pago').val(data.Nombre_Colab);
+                        $('#id_cola_pago').val(data.ID_Colab);
                         $('#monto_pago').val(data.Monto_Pago);
                        
                        
@@ -335,11 +335,11 @@ $t_pago_result = $conn->query("SELECT ID_Colab, Nombre_Colab FROM t_colaborador"
 
         });
 
-        function limpiarFormGasto() {
+        function limpiarFormPago() {
             $('#id_cola_pago').val("");
             $('#monto_pago').val("");
             $('#archivo_pago').val("");
-            $('#mostrarNombreArchivoPago').html();
+            $('#mostrarNombreArchivoPago').html("");
 
             // reiniciar título del formulario y texto de botón
             $('#formPagoTitulo').html('Agregar Nuevo Pago');

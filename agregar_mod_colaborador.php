@@ -52,13 +52,27 @@ $horarioRefriColab = $_POST['hor_refri_colaborador'];
 
 if ($colaborador_id) {
 
-    $sqlUpdate = "UPDATE t_gasto_interno SET 
-                    Nom_Gasto = ?, 
-                    Monto_Gasto = ?, 
-                    Fech_Pag_Gasto = ?";
+    $sqlUpdate = "UPDATE t_colaborador SET 
+                    Nombre_Colab = ?,
+                    Apellido_Colab = ?,
+                    Numero_Doc_Colab = ?,
+                    Genero_Colab = ?,
+                    Fecha_Nac_Colab = ?,
+                    Edad_Colab = ?,
+                    Direccion_Colab = ?,
+                    Telefono_Colab =?,
+                    Correo_Colab = ?,
+                    ID_Puesto = ?,
+                    Modalidad_Colab = ?,
+                    Sueldo_Colab = ?,
+                    Fecha_Pago_Colab = ?,
+                    Horario_Trabajo_Colab = ?,
+                    Horario_Refrigerio_Colab = ?"; 
 
-    $tipoDatos = "sdsssssi";
-    $parametros = [ $nombreGasto, $montoGasto, $fechaPagoGasto ];
+    $tipoDatos = "ssssssssssisdsss";
+    $parametros = [ $nombreColab, $apellidoColab, $numDocColab, $generoColab, $fechaNacColab, $edadColab, $direccionColab,
+    $telefonoColab, $correoColab, $puestoColab, $modalidadColab, $sueldoColab, $fechaPagColab, $horarioTrabColab, 
+    $horarioRefriColab ];
 
     // 1er archivo
     if ($archivoCV && $tamano_archivoCV > 0 && move_uploaded_file($ruta_temporalCV, $ruta_destinoCV)) {
@@ -89,7 +103,7 @@ if ($colaborador_id) {
 
         $tipoDatos .= "ssss";
 
-        $parametros = array_merge($parametros, [$nombre_archivo, $tipo_archivo, $tamano_archivo, $ruta_destino]);
+        $parametros = array_merge($parametros, [$nombre_archivoCV, $tipo_archivoCV, $tamano_archivoCV, $ruta_destinoCV]);
 
     }
 
@@ -122,13 +136,13 @@ if ($colaborador_id) {
 
         $tipoDatos .= "ssss";
 
-        $parametros = array_merge($parametros, [$nombre_archivo, $tipo_archivo, $tamano_archivo, $ruta_destino]);
+        $parametros = array_merge($parametros, [$nombre_archivoContrato, $tipo_archivoContrato, $tamano_archivoContrato, $ruta_destinoContrato]);
 
     }
 
-    $sqlUpdate .= " WHERE ID_Gasto = ?";
+    $sqlUpdate .= " WHERE ID_Colaborador = ?";
     $tipoDatos .= "i";
-    $parametros[] = $gasto_id;
+    $parametros[] = $colaborador_id;
 
     // Preparar la declaración
     $stmt = $conn->prepare($sqlUpdate);
