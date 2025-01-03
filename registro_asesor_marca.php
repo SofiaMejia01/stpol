@@ -9,10 +9,7 @@
 
 $t_marca_result = $conn->query("SELECT * FROM t_marca WHERE COD_EST_OBJ = 1");
 
-$t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_EST_OBJ = 1 AND c.ID_Puesto = 2
-    AND c.ID_Colab NOT IN (
-        SELECT mc.ID_Colab
-        FROM t_marca_colaborador mc);");
+$t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_EST_OBJ = 1");
 
 ?>
 
@@ -271,6 +268,8 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
             $("#formAsesorMarcaTitulo").html("Modificar Asesores por Marca");
             $("#btn-asesor-marca").html("Modificar");
 
+            cambiarTipoSelect();
+
             const id = $(this).data('id');
             // console.log("id 11 =>", id)
             $.ajax({
@@ -297,6 +296,18 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
                 }
             });
         })
+
+        function cambiarTipoSelect() {
+            const $select = $('#id_asesores');
+
+            // Verificar si ya es múltiple
+            if ($select.attr('multiple')) {
+                $select.removeAttr('multiple'); // Remover el atributo 'multiple'
+            } 
+
+            // Volver a inicializar Select2 para que reconozca el cambio
+            $select.select2();
+        }
 
 
         //------------------- BOTON O ENLACE ELIMINAR, AL HACERLE CLICK-------------------------------------------
@@ -334,11 +345,19 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
 
     function limpiarFormAsesorMarca() {
         $('#id_marca').val("");
-        $('#id_asesores').val("");
+        $('#id_asesores').val([]).trigger('change');
 
         // reiniciar título del formulario y texto de botón
         $('#formAsesorMarcaTitulo').html('Registrar Asesor(es) por marca:');
         $('#btn-asesor-marca').html('Agregar');
+
+        // limpiar multiselect
+        if (!$select.attr('multiple')){
+            $select.attr('multiple', 'multiple'); // Agregar el atributo 'multiple'
+        }
+
+        // Volver a inicializar Select2 para que reconozca el cambio
+        $select.select2();
 
     }
 </script>
