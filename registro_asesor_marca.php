@@ -40,7 +40,7 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
 
                     <div class="form-group mb-3">
                         <label for="id_asesores" class="form-label">Elegir Asesor(es):</label>
-                        <select class="form-select" id="id_asesores" name="id_asesores[]" multiple required>
+                        <select class="form-select" id="id_asesores" name="id_asesores[]" multiple="multiple" required>
                             <?php while ($row = $t_colaborador_result->fetch_assoc()): ?>
                                 <option value="<?php echo $row['ID_Colab']; ?>"><?php echo $row['Nombre_Colab']. ' ' . $row['Apellido_Colab']; ?></option>
                     
@@ -154,7 +154,14 @@ $t_colaborador_result = $conn->query("SELECT * FROM t_colaborador c WHERE c.COD_
 
     $(document).ready(function() {
 
+        $("#id_asesores").change(function () {
+            var frutaSeleccionada = $(this).val();
+            console.log("id asesores =>", frutaSeleccionada )
+        })
+
         // new DataTable("#prodTable");
+
+
 
         $('#id_asesores').select2({
             placeholder: "Seleccione uno o más asesores",
