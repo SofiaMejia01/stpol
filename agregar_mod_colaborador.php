@@ -69,7 +69,7 @@ if ($colaborador_id) {
                     Horario_Trabajo_Colab = ?,
                     Horario_Refrigerio_Colab = ?"; 
 
-    $tipoDatos = "ssssssssssisdsss";
+    $tipoDatos = "sssssisssisdsss";
     $parametros = [ $nombreColab, $apellidoColab, $numDocColab, $generoColab, $fechaNacColab, $edadColab, $direccionColab,
     $telefonoColab, $correoColab, $puestoColab, $modalidadColab, $sueldoColab, $fechaPagColab, $horarioTrabColab, 
     $horarioRefriColab ];
@@ -140,7 +140,7 @@ if ($colaborador_id) {
 
     }
 
-    $sqlUpdate .= " WHERE ID_Colaborador = ?";
+    $sqlUpdate .= " WHERE ID_Colab = ?";
     $tipoDatos .= "i";
     $parametros[] = $colaborador_id;
 

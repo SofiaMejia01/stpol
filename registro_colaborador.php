@@ -439,7 +439,7 @@ $t_puesto_result = $conn->query("SELECT ID_Puesto, Nombre_Puesto FROM t_puesto")
                                 </small>`;
                             $("#mostrarNombreArchivoCV").html(htmlArchivo);
                         }else{
-                            $("#mostrarNombreArchivoCV").html()
+                            $("#mostrarNombreArchivoCV").html();
                         }
 
                         $('#puesto_colaborador').val(data.iD_Puesto);
@@ -515,11 +515,13 @@ $t_puesto_result = $conn->query("SELECT ID_Puesto, Nombre_Puesto FROM t_puesto")
             $('#telef_colaborador').val("");
             $('#correo_colaborador').val("");
             $('#correo_colaborador').val("");
+            $('#archivo_cv').val("");
             $('#mostrarNombreArchivoCV').html("");
             $('#puesto_colaborador').val("");
             $('#modalidad_colaborador').val("");
             $('#sueldo_colaborador').val("");
             $('#fech_pag_colaborador').val("");
+            $('#archivo_contrato').val("");
             $('#mostrarNombreArchivoContrato').html("");
             $('#hor_trab_colaborador').val("");
             $('#hor_refri_colaborador').val("");

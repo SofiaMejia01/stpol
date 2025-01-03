@@ -30,7 +30,7 @@ if ($asesor_marca_id) {
         if ($stmt->affected_rows > 0) {
             echo json_encode(['status' => 'success', 'message' => 'Registro modificado exitosamente.']);
         } else {
-            echo json_encode(['error' => 'No se pudo actualizar el registro']);
+            echo json_encode(['error' => 'No se pudo actualizar el registro.']);
         }
 
         $stmt->close();
