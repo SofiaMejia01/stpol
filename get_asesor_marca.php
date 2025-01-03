@@ -14,7 +14,7 @@ $id = $_POST['id'];
 //     JOIN t_marca ON t_producto_servicio_marca.ID_Marca = t_marca.ID_Marca 
 //     WHERE t_producto_servicio_marca.ID_Prod_Serv_Marca = ?";
 
-$query = "SELECT ID_Marca, ID_Colab FROM t_marca_colaborador as mc 
+$query = "SELECT ID_Marca_Colaborador, ID_Marca, ID_Colab FROM t_marca_colaborador as mc 
     WHERE mc.ID_Marca_Colaborador = ?";
 
 //Crea una consulta preparada. Esto mejora la seguridad al prevenir ataques de inyección SQL al separar los datos dinámicos (proporcionados por el usuario) de la lógica de la consulta.

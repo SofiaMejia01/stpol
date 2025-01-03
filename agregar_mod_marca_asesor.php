@@ -24,7 +24,7 @@ if ($asesor_marca_id) {
     $stmt = $conn->prepare($update_query);
 
     if ($stmt) {
-        $stmt->bind_param("iii", $id_marca , $id_asesores,  $asesor_marca_id);
+        $stmt->bind_param("iii", $id_marca , $id_asesores[0],  $asesor_marca_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
